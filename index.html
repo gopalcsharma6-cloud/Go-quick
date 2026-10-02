@@ -1,771 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GO QUICK</title>
-
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GO QUICK</title>
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f7f5;
-  color:#182018;
-}
-header{
-  background:#159447;
-  color:white;
-  padding:18px 15px 14px;
-}
-.brand{
-  font-size:30px;
-  font-weight:900;
-}
-.tagline{
-  font-size:15px;
-  margin-top:4px;
-}
-.search{
-  margin-top:15px;
-}
-.search input{
-  width:100%;
-  padding:15px;
-  border:0;
-  border-radius:15px;
-  font-size:17px;
-  outline:none;
-}
-.categories{
-  display:flex;
-  gap:9px;
-  overflow-x:auto;
-  padding:14px 12px;
-  background:white;
-}
-.category{
-  white-space:nowrap;
-  border:1px solid #ddd;
-  background:white;
-  padding:10px 14px;
-  border-radius:22px;
-  font-weight:bold;
-}
-.category.active{
-  background:#159447;
-  color:white;
-}
-main{
-  padding:10px 12px 100px;
-}
-h2{
-  margin:12px 0;
-}
-.products{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-.product{
-  background:white;
-  border:1px solid #e2e2e2;
-  border-radius:15px;
-  padding:10px;
-  min-height:245px;
-}
-.photo{
-  height:120px;
-  border-radius:12px;
-  background:#eef3ef;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:55px;
-}
-.name{
-  font-weight:bold;
-  margin-top:9px;
-  line-height:1.25;
-}
-.size{
-  color:#777;
-  font-size:13px;
-  margin-top:4px;
-}
-.price{
-  font-size:18px;
-  font-weight:900;
-  margin-top:7px;
-}
-.update{
-  color:#a66b00;
-  font-weight:bold;
-  margin-top:8px;
-}
-.add{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  border:0;
-  border-radius:10px;
-  background:#159447;
-  color:white;
-  font-weight:bold;
-  font-size:15px;
-}
-.qty{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:10px;
-  border:1px solid #159447;
-  border-radius:10px;
-  overflow:hidden;
-}
-.qty button{
-  width:42px;
-  height:40px;
-  border:0;
-  background:#eaf7ef;
-  color:#159447;
-  font-size:22px;
-  font-weight:bold;
-}
-.qty span{
-  font-weight:bold;
-}
-.cartbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  border-top:1px solid #ddd;
-  padding:10px 12px;
-  z-index:20;
-}
-.cartbar button{
-  width:100%;
-  background:#ff7600;
-  color:white;
-  border:0;
-  border-radius:12px;
-  padding:14px;
-  font-size:17px;
-  font-weight:bold;
-}
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  z-index:50;
-  padding:15px;
-}
-.modal{
-  background:white;
-  border-radius:20px;
-  padding:18px;
-  max-height:90vh;
-  overflow:auto;
-  margin-top:5vh;
-}
-.close{
-  float:right;
-  border:0;
-  border-radius:50%;
-  width:35px;
-  height:35px;
-  font-size:22px;
-}
-.cartitem{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  border-bottom:1px solid #ddd;
-  padding:12px 0;
-}
-.cartqty button{
-  width:32px;
-  height:32px;
-}
-.total{
-  display:flex;
-  justify-content:space-between;
-  font-size:21px;
-  font-weight:bold;
-  padding:15px 0;
-}
-.form input,
-.form textarea{
-  width:100%;
-  padding:13px;
-  margin:6px 0;
-  border:1px solid #ddd;
-  border-radius:10px;
-  font-size:16px;
-}
-.place{
-  width:100%;
-  padding:14px;
-  margin-top:8px;
-  border:0;
-  border-radius:12px;
-  background:#159447;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-}
-@media(min-width:700px){
-  .products{
-    grid-template-columns:repeat(4,1fr);
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="brand">GO QUICK</div>
-  <div class="tagline">Jo Chahiye, Jab Chahiye</div>
-
-  <div class="search">
-    <input id="search" type="search" placeholder="🔎 Search products...">
-  </div>
-</header>
-
-<div class="categories" id="categories"></div>
-
-<main>
-  <h2 id="title">All Products</h2>
-  <div class="products" id="products"></div>
-</main>
-
-<div class="cartbar">
-  <button onclick="openCart()">
-    🛒 VIEW CART • <span id="cartCount">0</span> ITEMS • ₹<span id="cartTotal">0</span>
-  </button>
-</div>
-
-<div class="overlay" id="overlay">
-  <div class="modal">
-
-    <button class="close" onclick="closeCart()">×</button>
-
-    <h2>Your Cart</h2>
-
-    <div id="cartItems"></div>
-
-    <div class="total">
-      <span>Total</span>
-      <span>₹<span id="modalTotal">0</span></span>
-    </div>
-
-    <div class="form">
-
-      <input
-        id="customerName"
-        placeholder="Customer Name"
-      >
-
-      <input
-        id="mobile"
-        placeholder="Mobile No."
-        inputmode="tel"
-      >
-
-      <textarea
-        id="address"
-        rows="4"
-        placeholder="Delivery Address"
-      ></textarea>
-
-      <button class="place" onclick="placeOrder()">
-        PLACE ORDER
-      </button>
-
-    </div>
-
-  </div>
-</div>
-
+*{box-sizing:border-box}body{margin:0;background:#f4f7f4;color:#151a17;font-family:Arial,sans-serif}.head{background:#119447;color:#fff;padding:14px}.top{display:flex;align-items:center;gap:10px}.logo{width:62px;height:62px;object-fit:contain;background:#fff;border-radius:15px;padding:3px}.brand{font-size:29px;font-weight:900}.tag{font-size:14px}.search{margin-top:14px;width:100%;padding:15px;border:0;border-radius:17px;font-size:17px}main{max-width:1000px;margin:auto}h2{margin:18px 14px 10px}.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px}.cat{background:#fff;border:1px solid #dfe5e1;border-radius:16px;padding:8px;text-align:center;font-weight:800;cursor:pointer}.cat img{width:100%;height:88px;object-fit:contain;border-radius:12px;background:#eef5f0}.cat div{padding:8px 2px 3px}.products{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px 100px}.card{background:#fff;border:1px solid #e0e5e2;border-radius:16px;padding:9px;overflow:hidden}.pic{height:150px;background:#eef5f0;border-radius:12px;display:flex;align-items:center;justify-content:center}.pic img{width:100%;height:100%;object-fit:contain}.name{font-weight:800;margin-top:9px;line-height:1.25}.size{color:#777;font-size:13px;margin-top:4px}.price{font-size:18px;font-weight:900;margin-top:7px}.up{color:#9a6500;font-weight:800;margin-top:8px}button{cursor:pointer}.add{width:100%;border:0;border-radius:10px;background:#159447;color:#fff;font-weight:900;padding:10px;margin-top:10px}.qty{display:flex;justify-content:space-between;align-items:center;border:1px solid #159447;border-radius:10px;margin-top:10px;overflow:hidden}.qty button{width:42px;height:38px;border:0;background:#e8f6ed;color:#159447;font-size:22px;font-weight:900}.bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;padding:10px 14px;z-index:5}.bar button{width:100%;padding:14px;border:0;border-radius:13px;background:#ff7900;color:#fff;font-size:17px;font-weight:900}.modalbg{display:none;position:fixed;inset:0;background:#0008;z-index:9;padding:15px}.modal{background:#fff;max-width:620px;margin:3vh auto;padding:17px;border-radius:18px;max-height:90vh;overflow:auto}.close{float:right;border:0;border-radius:50%;width:34px;height:34px}.item{display:flex;justify-content:space-between;border-bottom:1px solid #ddd;padding:10px 0;gap:10px}.total{display:flex;justify-content:space-between;font-size:21px;font-weight:900;padding:14px 0}.form input,.form textarea{width:100%;padding:12px;margin:5px 0;border:1px solid #ddd;border-radius:10px;font-size:16px}.place{width:100%;padding:14px;border:0;border-radius:11px;background:#159447;color:#fff;font-size:17px;font-weight:900;margin-top:7px}
+@media(min-width:650px){.cats{grid-template-columns:repeat(6,1fr)}.products{grid-template-columns:repeat(4,1fr)}}
+</style></head><body>
+<header class="head"><div class="top"><img class="logo" src="logo.png"><div><div class="brand">GO QUICK</div><div class="tag">Jo Chahiye, Jab Chahiye</div></div></div><input id="search" class="search" placeholder="🔎 Search for atta, dal, milk and more..."></header>
+<main><h2>Shop by category</h2><div id="cats" class="cats"></div><h2 id="heading">All Products</h2><div id="products" class="products"></div></main>
+<div class="bar"><button onclick="openCart()">🛒 VIEW CART • <span id="cc">0</span> ITEMS • ₹<span id="ct">0</span></button></div>
+<div id="bg" class="modalbg"><div class="modal"><button class="close" onclick="closeCart()">×</button><h2>Your Cart</h2><div id="items"></div><div class="total"><span>TOTAL</span><span>₹<span id="mt">0</span></span></div><div class="form"><input id="name" placeholder="Customer Name"><input id="mobile" placeholder="Mobile No."><textarea id="address" rows="4" placeholder="Delivery Address"></textarea><button class="place" onclick="order()">PLACE ORDER</button></div></div></div>
 <script>
+const P=[["Apple","Fruits & Vegetables",null,"1 kg","apple.png"],["Banana","Fruits & Vegetables",null,"1 kg","banana.png"],["Orange","Fruits & Vegetables",null,"1 kg","orange.jpg"],["Tomato","Fruits & Vegetables",null,"1 kg","tomato.jpg"],["Onion","Fruits & Vegetables",null,"1 kg","onion.jpg"],["Capsicum","Fruits & Vegetables",null,"1 kg","capsicum.jpg"],["Carrot","Fruits & Vegetables",null,"1 kg","carrot.jpg"],["Pineapple","Fruits & Vegetables",null,"1 pc","pineapple.jpg"],["Spinach (Palak)","Fruits & Vegetables",null,"1 bunch","spinach.jpg"],["Coriander (Dhaniya)","Fruits & Vegetables",null,"1 bunch","coriander.jpg"],["Cauliflower (Gobhi)","Fruits & Vegetables",null,"1 pc","cauliflower.jpg"],["Grapes","Fruits & Vegetables",null,"1 kg","grapes.jpg"],["Aashirvaad Multigrains Atta","Aata, Rice, Dal & Flours",339,"5 kg","ashirvaad.jpg"],["Fortune Chakki Fresh Atta","Aata, Rice, Dal & Flours",485,"10 kg","fortune_atta.webp"],["Daawat Sona Masoori Rice","Aata, Rice, Dal & Flours",89,"1 kg","daawat.jpg"],["Daawat Sona Masoori Rice","Aata, Rice, Dal & Flours",738,"10 kg","daawat.jpg"],["Toor Dal","Aata, Rice, Dal & Flours",91.5,"500 g","ashirvaad.jpg"],["Toor Dal","Aata, Rice, Dal & Flours",183,"1 kg","ashirvaad.jpg"],["Moong Dal Chilka","Aata, Rice, Dal & Flours",89,"500 g","ashirvaad.jpg"],["Chana Dal","Aata, Rice, Dal & Flours",67,"500 g","ashirvaad.jpg"],["Masoor Dal","Aata, Rice, Dal & Flours",72,"500 g","ashirvaad.jpg"],["Besan","Aata, Rice, Dal & Flours",99,"1 kg","ashirvaad.jpg"],["Sooji","Aata, Rice, Dal & Flours",34,"500 g","ashirvaad.jpg"],["Maida","Aata, Rice, Dal & Flours",47,"500 g","ashirvaad.jpg"],["Fortune Premium Kachi Ghani Mustard Oil","Oil, Ghee & Masala",198,"1 kg","mustard.jpg"],["Fortune Soya Health Refined Soyabean Oil","Oil, Ghee & Masala",178,"1 kg","soya.jpg"],["Amul Pure Ghee","Oil, Ghee & Masala",631,"1 kg","amul_ghee.jpg"],["Patanjali Cow's Ghee","Oil, Ghee & Masala",747,"1 kg","patanjali_ghee.jpg"],["Patanjali Cow's Ghee","Oil, Ghee & Masala",180,"200 ml","patanjali_ghee.jpg"],["Amul Gold Milk","Milk & Dairy",36,"500 ml","amul_milk.jpg"],["Amul Masti Dahi","Milk & Dairy",25,"200 g","amul_dahi.jpg"],["Amul Masti Dahi","Milk & Dairy",35,"500 g","amul_dahi.jpg"],["Mrs. Bector's English Oven White Bread","Bakery & Biscuits",70,"","white_bread.jpg"],["Mrs. Bector's English Oven Burger Buns","Bakery & Biscuits",55,"6 pcs / 300 g","burger_buns.jpg"],["Britannia Zero Maida Atta Bread","Bakery & Biscuits",60,"","britannia_bread.jpg"]];
+const C=[["Fruits & Vegetables","fruits","apple.png"],["Aata, Rice & Dal","aata","ashirvaad.jpg"],["Oil, Ghee & Masala","oil","mustard.jpg"],["Milk & Dairy","dairy","amul_milk.jpg"],["Bakery & Biscuits","bakery","white_bread.jpg"],["Drinks & Snacks","drinks","soya.jpg"]];
+let cart={},cat="All Products",q="";
+const wa="917417482367";
 
-/* =========================
-   GO QUICK PRODUCTS
-========================= */
-
-const products = [
-
-/* Fruits & Vegetables */
-
-{name:"Apple",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍎"},
-{name:"Banana",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍌"},
-{name:"Orange",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍊"},
-{name:"Tomato",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍅"},
-{name:"Onion",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🧅"},
-{name:"Capsicum",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🫑"},
-{name:"Carrot",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🥕"},
-{name:"Pineapple",cat:"Fruits & Vegetables",price:null,size:"1 pc",icon:"🍍"},
-{name:"Spinach (Palak)",cat:"Fruits & Vegetables",price:null,size:"1 bunch",icon:"🥬"},
-{name:"Coriander (Dhaniya)",cat:"Fruits & Vegetables",price:null,size:"1 bunch",icon:"🌿"},
-{name:"Cauliflower (Gobhi)",cat:"Fruits & Vegetables",price:null,size:"1 pc",icon:"🥦"},
-{name:"Grapes",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍇"},
-
-/* Aata Rice Dal Flours */
-
-{name:"Aashirvaad Multigrains Atta",cat:"Aata, Rice, Dal & Flours",price:339,size:"5 kg",icon:"🌾"},
-{name:"Fortune Chakki Fresh Atta",cat:"Aata, Rice, Dal & Flours",price:485,size:"10 kg",icon:"🌾"},
-{name:"Daawat Sona Masoori Rice",cat:"Aata, Rice, Dal & Flours",price:89,size:"1 kg",icon:"🍚"},
-{name:"Daawat Sona Masoori Rice",cat:"Aata, Rice, Dal & Flours",price:738,size:"10 kg",icon:"🍚"},
-{name:"Toor Dal",cat:"Aata, Rice, Dal & Flours",price:91.50,size:"500 g",icon:"🫘"},
-{name:"Toor Dal",cat:"Aata, Rice, Dal & Flours",price:183,size:"1 kg",icon:"🫘"},
-{name:"Moong Dal Chilka",cat:"Aata, Rice, Dal & Flours",price:89,size:"500 g",icon:"🫘"},
-{name:"Chana Dal",cat:"Aata, Rice, Dal & Flours",price:67,size:"500 g",icon:"🫘"},
-{name:"Masoor Dal",cat:"Aata, Rice, Dal & Flours",price:72,size:"500 g",icon:"🫘"},
-{name:"Besan",cat:"Aata, Rice, Dal & Flours",price:99,size:"1 kg",icon:"🌾"},
-{name:"Sooji",cat:"Aata, Rice, Dal & Flours",price:34,size:"500 g",icon:"🌾"},
-{name:"Maida",cat:"Aata, Rice, Dal & Flours",price:47,size:"500 g",icon:"🌾"},
-
-/* Oil Ghee Masala */
-
-{name:"Fortune Premium Kachi Ghani Mustard Oil",cat:"Oil, Ghee & Masala",price:198,size:"1 kg",icon:"🫙"},
-{name:"Fortune Soya Health Refined Soyabean Oil",cat:"Oil, Ghee & Masala",price:178,size:"1 kg",icon:"🫙"},
-{name:"Amul Pure Ghee",cat:"Oil, Ghee & Masala",price:631,size:"1 kg",icon:"🧈"},
-{name:"Patanjali Cow's Ghee",cat:"Oil, Ghee & Masala",price:747,size:"1 kg",icon:"🧈"},
-{name:"Patanjali Cow's Ghee",cat:"Oil, Ghee & Masala",price:180,size:"200 ml",icon:"🧈"},
-
-/* Milk Dairy */
-
-{name:"Amul Gold Milk",cat:"Milk & Dairy",price:36,size:"500 ml",icon:"🥛"},
-{name:"Amul Masti Dahi",cat:"Milk & Dairy",price:25,size:"200 g",icon:"🥣"},
-{name:"Amul Masti Dahi",cat:"Milk & Dairy",price:35,size:"500 g",icon:"🥣"},
-
-/* Bakery */
-
-{name:"Mrs. Bector's English Oven White Bread",cat:"Bakery & Biscuits",price:70,size:"",icon:"🍞"},
-{name:"Mrs. Bector's English Oven Burger Buns",cat:"Bakery & Biscuits",price:55,size:"6 pcs / 300 g",icon:"🍔"},
-{name:"Britannia Zero Maida Atta Bread",cat:"Bakery & Biscuits",price:60,size:"",icon:"🍞"}
-
-];
-
-
-/* =========================
-   SETTINGS
-========================= */
-
-const whatsappNumber = "917417482367";
-
-const categories = [
-"All Products",
-"Fruits & Vegetables",
-"Aata, Rice, Dal & Flours",
-"Oil, Ghee & Masala",
-"Milk & Dairy",
-"Bakery & Biscuits",
-"Drinks & Snacks"
-];
-
-let selectedCategory = "All Products";
-let searchText = "";
-let cart = {};
-
-
-/* =========================
-   CATEGORY
-========================= */
-
-function showCategories(){
-
-  const box = document.getElementById("categories");
-
-  box.innerHTML = categories.map(c => {
-
-    return `
-      <button
-        class="category ${selectedCategory===c ? "active":""}"
-        onclick="selectCategory('${c.replace(/'/g,"\\'")}')"
-      >
-        ${c}
-      </button>
-    `;
-
-  }).join("");
-
+function renderCats(){
+document.getElementById("cats").innerHTML=C.map(x=>`<div class="cat" onclick="cat='${x[0]}';render()"><img src="images/${x[2]}"><div>${x[0]}</div></div>`).join("")
 }
 
-function selectCategory(category){
-
-  selectedCategory = category;
-
-  showCategories();
-  showProducts();
-
+function render(){
+let s=q.toLowerCase();
+let a=P.map((p,i)=>[p,i]).filter(x=>(cat==="All Products"||x[0][1]===cat)&&x[0][0].toLowerCase().includes(s));
+document.getElementById("heading").textContent=cat;
+document.getElementById("products").innerHTML=a.map(([p,i])=>`<div class="card"><div class="pic"><img src="images/${p[4]}"></div><div class="name">${p[0]}</div><div class="size">${p[3]}</div>${p[2]==null?'<div class="up">Price updating</div>':`<div class="price">₹${p[2]}</div>${cart[i]?`<div class="qty"><button onclick="chg(${i},-1)">−</button><b>${cart[i]}</b><button onclick="chg(${i},1)">+</button></div>`:`<button class="add" onclick="chg(${i},1)">ADD</button>`}`}</div>`).join("")
 }
 
-
-/* =========================
-   PRODUCTS
-========================= */
-
-function showProducts(){
-
-  const box = document.getElementById("products");
-
-  const search = searchText.toLowerCase();
-
-  const list = products
-    .map((p,index)=>({...p,index}))
-    .filter(p => {
-
-      const categoryOK =
-        selectedCategory==="All Products" ||
-        p.cat===selectedCategory;
-
-      const searchOK =
-        p.name.toLowerCase().includes(search);
-
-      return categoryOK && searchOK;
-
-    });
-
-  document.getElementById("title").innerText =
-    selectedCategory;
-
-  if(list.length===0){
-
-    box.innerHTML =
-      "<p>No products found.</p>";
-
-    return;
-  }
-
-  box.innerHTML = list.map(p => {
-
-    const quantity = cart[p.index] || 0;
-
-    let button;
-
-    if(p.price===null){
-
-      button =
-        `<div class="update">Price updating</div>`;
-
-    }
-    else if(quantity>0){
-
-      button = `
-        <div class="qty">
-
-          <button onclick="changeQty(${p.index},-1)">−</button>
-
-          <span>${quantity}</span>
-
-          <button onclick="changeQty(${p.index},1)">+</button>
-
-        </div>
-      `;
-
-    }
-    else{
-
-      button =
-        `<button class="add" onclick="changeQty(${p.index},1)">
-          ADD
-        </button>`;
-
-    }
-
-    return `
-      <div class="product">
-
-        <div class="photo">
-          ${p.icon}
-        </div>
-
-        <div class="name">
-          ${p.name}
-        </div>
-
-        <div class="size">
-          ${p.size}
-        </div>
-
-        ${
-          p.price===null
-          ? ""
-          : `<div class="price">₹${p.price}</div>`
-        }
-
-        ${button}
-
-      </div>
-    `;
-
-  }).join("");
-
+function chg(i,d){
+cart[i]=(cart[i]||0)+d;
+if(cart[i]<=0)delete cart[i];
+render();
+update()
 }
 
-
-/* =========================
-   CART
-========================= */
-
-function changeQty(index,amount){
-
-  if(!cart[index]){
-    cart[index]=0;
-  }
-
-  cart[index]+=amount;
-
-  if(cart[index]<=0){
-    delete cart[index];
-  }
-
-  showProducts();
-  updateCart();
-
+function count(){
+return Object.values(cart).reduce((a,b)=>a+b,0)
 }
 
-
-function getCartTotal(){
-
-  let total=0;
-
-  Object.keys(cart).forEach(index => {
-
-    const product=products[index];
-
-    total += product.price * cart[index];
-
-  });
-
-  return total;
-
+function total(){
+return Object.entries(cart).reduce((t,[i,n])=>t+P[i][2]*n,0)
 }
 
-
-function getCartCount(){
-
-  let count=0;
-
-  Object.keys(cart).forEach(index => {
-
-    count += cart[index];
-
-  });
-
-  return count;
-
+function update(){
+cc.textContent=count();
+ct.textContent=total().toFixed(2).replace(".00","")
 }
-
-
-function updateCart(){
-
-  document.getElementById("cartCount").innerText =
-    getCartCount();
-
-  document.getElementById("cartTotal").innerText =
-    getCartTotal().toFixed(2).replace(".00","");
-
-}
-
-
-/* =========================
-   OPEN CART
-========================= */
 
 function openCart(){
-
-  showCart();
-
-  document.getElementById("overlay")
-    .style.display="block";
-
+let k=Object.keys(cart);
+items.innerHTML=k.length?k.map(i=>`<div class="item"><div><b>${P[i][0]}</b><br>${P[i][3]}<br>₹${P[i][2]} × ${cart[i]}</div><div><button onclick="chg(${i},-1);openCart()">−</button> ${cart[i]} <button onclick="chg(${i},1);openCart()">+</button></div></div>`).join(""):"<p>Your cart is empty.</p>";
+mt.textContent=total().toFixed(2).replace(".00","");
+bg.style.display="block"
 }
-
 
 function closeCart(){
-
-  document.getElementById("overlay")
-    .style.display="none";
-
+bg.style.display="none"
 }
 
+function order(){
+if(!count())return alert("Please select at least one product.");
+let n=name.value.trim(),m=mobile.value.trim(),a=address.value.trim();
+if(!n||!m||!a)return alert("Please fill Customer Name, Mobile No. and Delivery Address.");
+let s=`*GO QUICK ORDER*
 
-/* =========================
-   CART SCREEN
-========================= */
+Customer Name: ${n}
 
-function showCart(){
-
-  const box =
-    document.getElementById("cartItems");
-
-  const indexes =
-    Object.keys(cart);
-
-  if(indexes.length===0){
-
-    box.innerHTML =
-      "<p>Your cart is empty.</p>";
-
-  }
-  else{
-
-    box.innerHTML = indexes.map(index => {
-
-      const p=products[index];
-      const q=cart[index];
-
-      return `
-        <div class="cartitem">
-
-          <div>
-            <b>${p.name}</b>
-            <br>
-            <small>${p.size}</small>
-            <br>
-            ₹${p.price} × ${q}
-          </div>
-
-          <div class="cartqty">
-
-            <button onclick="changeQty(${index},-1);showCart()">
-              −
-            </button>
-
-            <b>${q}</b>
-
-            <button onclick="changeQty(${index},1);showCart()">
-              +
-            </button>
-
-          </div>
-
-        </div>
-      `;
-
-    }).join("");
-
-  }
-
-  document.getElementById("modalTotal").innerText =
-    getCartTotal().toFixed(2).replace(".00","");
-
-}
-
-
-/* =========================
-   PLACE ORDER
-========================= */
-
-function placeOrder(){
-
-  const count=getCartCount();
-
-  if(count===0){
-
-    alert("Please select at least one product.");
-
-    return;
-  }
-
-
-  const name =
-    document.getElementById("customerName")
-    .value.trim();
-
-  const mobile =
-    document.getElementById("mobile")
-    .value.trim();
-
-  const address =
-    document.getElementById("address")
-    .value.trim();
-
-
-  if(!name || !mobile || !address){
-
-    alert(
-      "Please fill Customer Name, Mobile No. and Delivery Address."
-    );
-
-    return;
-  }
-
-
-  let message =
-`*GO QUICK ORDER*
-
-Customer Name: ${name}
-
-Mobile No.: ${mobile}
+Mobile No.: ${m}
 
 Delivery Address:
-${address}
+${a}
 
 *ORDER ITEMS:*`;
+Object.keys(cart).forEach(i=>s+=`
+• ${P[i][0]} (${P[i][3]}) × ${cart[i]} = ₹${P[i][2]*cart[i]}`);
+s+=`
 
-  Object.keys(cart).forEach(index => {
+*TOTAL: ₹${total()}*
 
-    const p=products[index];
-    const q=cart[index];
-
-    message +=
-`\n• ${p.name} (${p.size}) × ${q} = ₹${p.price*q}`;
-
-  });
-
-
-  const total=getCartTotal();
-
-  message +=
-`\n\n*TOTAL: ₹${total}*`;
-
-  message +=
-`\n\nThank you for ordering from GO QUICK.`;
-
-
-  const url =
-    "https://wa.me/" +
-    whatsappNumber +
-    "?text=" +
-    encodeURIComponent(message);
-
-
-  window.location.href=url;
-
+Thank you for ordering from GO QUICK.`;
+location.href="https://wa.me/"+wa+"?text="+encodeURIComponent(s)
 }
+search.oninput=e=>{
+q=e.target.value;
+render()
+};
 
-
-/* =========================
-   SEARCH
-========================= */
-
-document
-.getElementById("search")
-.addEventListener("input",function(){
-
-  searchText=this.value;
-
-  showProducts();
-
-});
-
-
-/* =========================
-   START
-========================= */
-
-showCategories();
-showProducts();
-updateCart();
-
-</script>
-
-</body>
-</html>
+renderCats();
+render();
+update();
+</script></body></html>
