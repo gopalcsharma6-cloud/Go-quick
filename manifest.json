@@ -1,0 +1,10 @@
+{
+  "name": "GO QUICK",
+  "short_name": "GO QUICK",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#087f3e",
+  "description": "Jo Chahiye, Jab Chahiye",
+  "icons": []
+}
