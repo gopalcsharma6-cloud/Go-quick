@@ -849,5 +849,25 @@ box-shadow:0 4px 12px rgba(0,0,0,.25);
 ">
 📱 Install GO QUICK
 </button>
+<script>
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+document.getElementById("installBtn").addEventListener("click", async function() {
+
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+  } else {
+    alert("Chrome ke 3 dots ⋮ par tap karein, phir 'Add to Home screen' select karein.");
+  }
+
+});
+</script>
 </body>
 </html>
