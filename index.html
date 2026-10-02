@@ -1,1 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GO QUICK</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7f5;
+  color:#182018;
+}
+header{
+  background:#159447;
+  color:white;
+  padding:18px 15px 14px;
+}
+.brand{
+  font-size:30px;
+  font-weight:900;
+}
+.tagline{
+  font-size:15px;
+  margin-top:4px;
+}
+.search{
+  margin-top:15px;
+}
+.search input{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:15px;
+  font-size:17px;
+  outline:none;
+}
+.categories{
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  padding:14px 12px;
+  background:white;
+}
+.category{
+  white-space:nowrap;
+  border:1px solid #ddd;
+  background:white;
+  padding:10px 14px;
+  border-radius:22px;
+  font-weight:bold;
+}
+.category.active{
+  background:#159447;
+  color:white;
+}
+main{
+  padding:10px 12px 100px;
+}
+h2{
+  margin:12px 0;
+}
+.products{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.product{
+  background:white;
+  border:1px solid #e2e2e2;
+  border-radius:15px;
+  padding:10px;
+  min-height:245px;
+}
+.photo{
+  height:120px;
+  border-radius:12px;
+  background:#eef3ef;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+}
+.name{
+  font-weight:bold;
+  margin-top:9px;
+  line-height:1.25;
+}
+.size{
+  color:#777;
+  font-size:13px;
+  margin-top:4px;
+}
+.price{
+  font-size:18px;
+  font-weight:900;
+  margin-top:7px;
+}
+.update{
+  color:#a66b00;
+  font-weight:bold;
+  margin-top:8px;
+}
+.add{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  border:0;
+  border-radius:10px;
+  background:#159447;
+  color:white;
+  font-weight:bold;
+  font-size:15px;
+}
+.qty{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:10px;
+  border:1px solid #159447;
+  border-radius:10px;
+  overflow:hidden;
+}
+.qty button{
+  width:42px;
+  height:40px;
+  border:0;
+  background:#eaf7ef;
+  color:#159447;
+  font-size:22px;
+  font-weight:bold;
+}
+.qty span{
+  font-weight:bold;
+}
+.cartbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid #ddd;
+  padding:10px 12px;
+  z-index:20;
+}
+.cartbar button{
+  width:100%;
+  background:#ff7600;
+  color:white;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  font-size:17px;
+  font-weight:bold;
+}
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:50;
+  padding:15px;
+}
+.modal{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  max-height:90vh;
+  overflow:auto;
+  margin-top:5vh;
+}
+.close{
+  float:right;
+  border:0;
+  border-radius:50%;
+  width:35px;
+  height:35px;
+  font-size:22px;
+}
+.cartitem{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid #ddd;
+  padding:12px 0;
+}
+.cartqty button{
+  width:32px;
+  height:32px;
+}
+.total{
+  display:flex;
+  justify-content:space-between;
+  font-size:21px;
+  font-weight:bold;
+  padding:15px 0;
+}
+.form input,
+.form textarea{
+  width:100%;
+  padding:13px;
+  margin:6px 0;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:16px;
+}
+.place{
+  width:100%;
+  padding:14px;
+  margin-top:8px;
+  border:0;
+  border-radius:12px;
+  background:#159447;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+@media(min-width:700px){
+  .products{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">GO QUICK</div>
+  <div class="tagline">Jo Chahiye, Jab Chahiye</div>
+
+  <div class="search">
+    <input id="search" type="search" placeholder="🔎 Search products...">
+  </div>
+</header>
+
+<div class="categories" id="categories"></div>
+
+<main>
+  <h2 id="title">All Products</h2>
+  <div class="products" id="products"></div>
+</main>
+
+<div class="cartbar">
+  <button onclick="openCart()">
+    🛒 VIEW CART • <span id="cartCount">0</span> ITEMS • ₹<span id="cartTotal">0</span>
+  </button>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+
+    <button class="close" onclick="closeCart()">×</button>
+
+    <h2>Your Cart</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="total">
+      <span>Total</span>
+      <span>₹<span id="modalTotal">0</span></span>
+    </div>
+
+    <div class="form">
+
+      <input
+        id="customerName"
+        placeholder="Customer Name"
+      >
+
+      <input
+        id="mobile"
+        placeholder="Mobile No."
+        inputmode="tel"
+      >
+
+      <textarea
+        id="address"
+        rows="4"
+        placeholder="Delivery Address"
+      ></textarea>
+
+      <button class="place" onclick="placeOrder()">
+        PLACE ORDER
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+/* =========================
+   GO QUICK PRODUCTS
+========================= */
+
+const products = [
+
+/* Fruits & Vegetables */
+
+{name:"Apple",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍎"},
+{name:"Banana",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍌"},
+{name:"Orange",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍊"},
+{name:"Tomato",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍅"},
+{name:"Onion",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🧅"},
+{name:"Capsicum",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🫑"},
+{name:"Carrot",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🥕"},
+{name:"Pineapple",cat:"Fruits & Vegetables",price:null,size:"1 pc",icon:"🍍"},
+{name:"Spinach (Palak)",cat:"Fruits & Vegetables",price:null,size:"1 bunch",icon:"🥬"},
+{name:"Coriander (Dhaniya)",cat:"Fruits & Vegetables",price:null,size:"1 bunch",icon:"🌿"},
+{name:"Cauliflower (Gobhi)",cat:"Fruits & Vegetables",price:null,size:"1 pc",icon:"🥦"},
+{name:"Grapes",cat:"Fruits & Vegetables",price:null,size:"1 kg",icon:"🍇"},
+
+/* Aata Rice Dal Flours */
+
+{name:"Aashirvaad Multigrains Atta",cat:"Aata, Rice, Dal & Flours",price:339,size:"5 kg",icon:"🌾"},
+{name:"Fortune Chakki Fresh Atta",cat:"Aata, Rice, Dal & Flours",price:485,size:"10 kg",icon:"🌾"},
+{name:"Daawat Sona Masoori Rice",cat:"Aata, Rice, Dal & Flours",price:89,size:"1 kg",icon:"🍚"},
+{name:"Daawat Sona Masoori Rice",cat:"Aata, Rice, Dal & Flours",price:738,size:"10 kg",icon:"🍚"},
+{name:"Toor Dal",cat:"Aata, Rice, Dal & Flours",price:91.50,size:"500 g",icon:"🫘"},
+{name:"Toor Dal",cat:"Aata, Rice, Dal & Flours",price:183,size:"1 kg",icon:"🫘"},
+{name:"Moong Dal Chilka",cat:"Aata, Rice, Dal & Flours",price:89,size:"500 g",icon:"🫘"},
+{name:"Chana Dal",cat:"Aata, Rice, Dal & Flours",price:67,size:"500 g",icon:"🫘"},
+{name:"Masoor Dal",cat:"Aata, Rice, Dal & Flours",price:72,size:"500 g",icon:"🫘"},
+{name:"Besan",cat:"Aata, Rice, Dal & Flours",price:99,size:"1 kg",icon:"🌾"},
+{name:"Sooji",cat:"Aata, Rice, Dal & Flours",price:34,size:"500 g",icon:"🌾"},
+{name:"Maida",cat:"Aata, Rice, Dal & Flours",price:47,size:"500 g",icon:"🌾"},
+
+/* Oil Ghee Masala */
+
+{name:"Fortune Premium Kachi Ghani Mustard Oil",cat:"Oil, Ghee & Masala",price:198,size:"1 kg",icon:"🫙"},
+{name:"Fortune Soya Health Refined Soyabean Oil",cat:"Oil, Ghee & Masala",price:178,size:"1 kg",icon:"🫙"},
+{name:"Amul Pure Ghee",cat:"Oil, Ghee & Masala",price:631,size:"1 kg",icon:"🧈"},
+{name:"Patanjali Cow's Ghee",cat:"Oil, Ghee & Masala",price:747,size:"1 kg",icon:"🧈"},
+{name:"Patanjali Cow's Ghee",cat:"Oil, Ghee & Masala",price:180,size:"200 ml",icon:"🧈"},
+
+/* Milk Dairy */
+
+{name:"Amul Gold Milk",cat:"Milk & Dairy",price:36,size:"500 ml",icon:"🥛"},
+{name:"Amul Masti Dahi",cat:"Milk & Dairy",price:25,size:"200 g",icon:"🥣"},
+{name:"Amul Masti Dahi",cat:"Milk & Dairy",price:35,size:"500 g",icon:"🥣"},
+
+/* Bakery */
+
+{name:"Mrs. Bector's English Oven White Bread",cat:"Bakery & Biscuits",price:70,size:"",icon:"🍞"},
+{name:"Mrs. Bector's English Oven Burger Buns",cat:"Bakery & Biscuits",price:55,size:"6 pcs / 300 g",icon:"🍔"},
+{name:"Britannia Zero Maida Atta Bread",cat:"Bakery & Biscuits",price:60,size:"",icon:"🍞"}
+
+];
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+const whatsappNumber = "917417482367";
+
+const categories = [
+"All Products",
+"Fruits & Vegetables",
+"Aata, Rice, Dal & Flours",
+"Oil, Ghee & Masala",
+"Milk & Dairy",
+"Bakery & Biscuits",
+"Drinks & Snacks"
+];
+
+let selectedCategory = "All Products";
+let searchText = "";
+let cart = {};
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+function showCategories(){
+
+  const box = document.getElementById("categories");
+
+  box.innerHTML = categories.map(c => {
+
+    return `
+      <button
+        class="category ${selectedCategory===c ? "active":""}"
+        onclick="selectCategory('${c.replace(/'/g,"\\'")}')"
+      >
+        ${c}
+      </button>
+    `;
+
+  }).join("");
+
+}
+
+function selectCategory(category){
+
+  selectedCategory = category;
+
+  showCategories();
+  showProducts();
+
+}
+
+
+/* =========================
+   PRODUCTS
+========================= */
+
+function showProducts(){
+
+  const box = document.getElementById("products");
+
+  const search = searchText.toLowerCase();
+
+  const list = products
+    .map((p,index)=>({...p,index}))
+    .filter(p => {
+
+      const categoryOK =
+        selectedCategory==="All Products" ||
+        p.cat===selectedCategory;
+
+      const searchOK =
+        p.name.toLowerCase().includes(search);
+
+      return categoryOK && searchOK;
+
+    });
+
+  document.getElementById("title").innerText =
+    selectedCategory;
+
+  if(list.length===0){
+
+    box.innerHTML =
+      "<p>No products found.</p>";
+
+    return;
+  }
+
+  box.innerHTML = list.map(p => {
+
+    const quantity = cart[p.index] || 0;
+
+    let button;
+
+    if(p.price===null){
+
+      button =
+        `<div class="update">Price updating</div>`;
+
+    }
+    else if(quantity>0){
+
+      button = `
+        <div class="qty">
+
+          <button onclick="changeQty(${p.index},-1)">−</button>
+
+          <span>${quantity}</span>
+
+          <button onclick="changeQty(${p.index},1)">+</button>
+
+        </div>
+      `;
+
+    }
+    else{
+
+      button =
+        `<button class="add" onclick="changeQty(${p.index},1)">
+          ADD
+        </button>`;
+
+    }
+
+    return `
+      <div class="product">
+
+        <div class="photo">
+          ${p.icon}
+        </div>
+
+        <div class="name">
+          ${p.name}
+        </div>
+
+        <div class="size">
+          ${p.size}
+        </div>
+
+        ${
+          p.price===null
+          ? ""
+          : `<div class="price">₹${p.price}</div>`
+        }
+
+        ${button}
+
+      </div>
+    `;
+
+  }).join("");
+
+}
+
+
+/* =========================
+   CART
+========================= */
+
+function changeQty(index,amount){
+
+  if(!cart[index]){
+    cart[index]=0;
+  }
+
+  cart[index]+=amount;
+
+  if(cart[index]<=0){
+    delete cart[index];
+  }
+
+  showProducts();
+  updateCart();
+
+}
+
+
+function getCartTotal(){
+
+  let total=0;
+
+  Object.keys(cart).forEach(index => {
+
+    const product=products[index];
+
+    total += product.price * cart[index];
+
+  });
+
+  return total;
+
+}
+
+
+function getCartCount(){
+
+  let count=0;
+
+  Object.keys(cart).forEach(index => {
+
+    count += cart[index];
+
+  });
+
+  return count;
+
+}
+
+
+function updateCart(){
+
+  document.getElementById("cartCount").innerText =
+    getCartCount();
+
+  document.getElementById("cartTotal").innerText =
+    getCartTotal().toFixed(2).replace(".00","");
+
+}
+
+
+/* =========================
+   OPEN CART
+========================= */
+
+function openCart(){
+
+  showCart();
+
+  document.getElementById("overlay")
+    .style.display="block";
+
+}
+
+
+function closeCart(){
+
+  document.getElementById("overlay")
+    .style.display="none";
+
+}
+
+
+/* =========================
+   CART SCREEN
+========================= */
+
+function showCart(){
+
+  const box =
+    document.getElementById("cartItems");
+
+  const indexes =
+    Object.keys(cart);
+
+  if(indexes.length===0){
+
+    box.innerHTML =
+      "<p>Your cart is empty.</p>";
+
+  }
+  else{
+
+    box.innerHTML = indexes.map(index => {
+
+      const p=products[index];
+      const q=cart[index];
+
+      return `
+        <div class="cartitem">
+
+          <div>
+            <b>${p.name}</b>
+            <br>
+            <small>${p.size}</small>
+            <br>
+            ₹${p.price} × ${q}
+          </div>
+
+          <div class="cartqty">
+
+            <button onclick="changeQty(${index},-1);showCart()">
+              −
+            </button>
+
+            <b>${q}</b>
+
+            <button onclick="changeQty(${index},1);showCart()">
+              +
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+  }
+
+  document.getElementById("modalTotal").innerText =
+    getCartTotal().toFixed(2).replace(".00","");
+
+}
+
+
+/* =========================
+   PLACE ORDER
+========================= */
+
+function placeOrder(){
+
+  const count=getCartCount();
+
+  if(count===0){
+
+    alert("Please select at least one product.");
+
+    return;
+  }
+
+
+  const name =
+    document.getElementById("customerName")
+    .value.trim();
+
+  const mobile =
+    document.getElementById("mobile")
+    .value.trim();
+
+  const address =
+    document.getElementById("address")
+    .value.trim();
+
+
+  if(!name || !mobile || !address){
+
+    alert(
+      "Please fill Customer Name, Mobile No. and Delivery Address."
+    );
+
+    return;
+  }
+
+
+  let message =
+`*GO QUICK ORDER*
+
+Customer Name: ${name}
+
+Mobile No.: ${mobile}
+
+Delivery Address:
+${address}
+
+*ORDER ITEMS:*`;
+
+  Object.keys(cart).forEach(index => {
+
+    const p=products[index];
+    const q=cart[index];
+
+    message +=
+`\n• ${p.name} (${p.size}) × ${q} = ₹${p.price*q}`;
+
+  });
+
+
+  const total=getCartTotal();
+
+  message +=
+`\n\n*TOTAL: ₹${total}*`;
+
+  message +=
+`\n\nThank you for ordering from GO QUICK.`;
+
+
+  const url =
+    "https://wa.me/" +
+    whatsappNumber +
+    "?text=" +
+    encodeURIComponent(message);
+
+
+  window.location.href=url;
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document
+.getElementById("search")
+.addEventListener("input",function(){
+
+  searchText=this.value;
+
+  showProducts();
+
+});
+
+
+/* =========================
+   START
+========================= */
+
+showCategories();
+showProducts();
+updateCart();
+
+</script>
+
+</body>
+</html>
