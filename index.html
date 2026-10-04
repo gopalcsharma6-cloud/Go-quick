@@ -470,605 +470,87 @@ const products = [
 let cart = {};
 let currentCategory = "All Products";
 let searchText = "";
-
 const GOOGLE_SHEET_API =
 "https://script.google.com/macros/s/AKfycbxeG5DY60jiR4JoJJegTd6ocZcx7gUygT30m-T_HXcW2uc9wJACwVCLHQ7pfw2mUwD9/exec";
 
-async function loadProductsFromSheet(){
+function loadProductsFromSheet() {
 
-  try{
+  const callbackName = "goQuickProducts_" + Date.now();
 
-    const response = await fetch(
-      GOOGLE_SHEET_API + "?t=" + Date.now()
-    );
+  window[callbackName] = function(data) {
 
-    if(!response.ok){
-      throw new Error("Google Sheet API Error: " + response.status);
-    }
-
-    const data = await response.json();
-
-    if(!Array.isArray(data) || data.length === 0){
-      console.log("Sheet me products nahi mile.");
+    if (!Array.isArray(data)) {
+      console.log("Invalid Sheet data");
       return;
     }
 
+    const categoryMap = {
+      "fruit & vegetables": "Fruits & Vegetables",
+      "fruits & vegetables": "Fruits & Vegetables",
+      "aata, rice & dal": "Aata, Rice & Dal",
+      "atta, rice & dal": "Aata, Rice & Dal",
+      "oil, ghee & masala": "Oil, Ghee & Masala",
+      "milk & dairy": "Milk & Dairy",
+      "bakery & biscuits": "Bakery & Biscuits",
+      "drinks & snacks": "Drinks & Snacks"
+    };
+
     const sheetProducts = data
-      .filter(item => {
-        const status = String(
-          item.Status ?? item.status ?? "on"
-        ).trim().toLowerCase();
-
-        return status !== "off";
+      .filter(function(item) {
+        return String(item.Status ?? "on")
+          .trim()
+          .toLowerCase() !== "off";
       })
-      .map(item => {
+      .map(function(item) {
 
-        const product =
-          item.Product ??
-          item.product ??
-          "";
-
-        let category =
-          item.Category ??
-          item.category ??
-          "";
-
-        const quantity =
-          item.Quantity ??
-          item.quantity ??
-          "";
-
-        const priceRaw =
-          item.Price ??
-          item.price ??
-          "";
-
-        const image =
-          item.Image ??
-          item.image ??
-          "";
-
-        // Sheet ki category ko panel ki category se match karna
-        const categoryMap = {
-          "fruit & vegetables":"Fruits & Vegetables",
-          "fruits & vegetables":"Fruits & Vegetables",
-          "aata, rice & dal":"Aata, Rice & Dal",
-          "atta, rice & dal":"Aata, Rice & Dal",
-          "oil, ghee & masala":"Oil, Ghee & Masala",
-          "milk & dairy":"Milk & Dairy",
-          "bakery & biscuits":"Bakery & Biscuits",
-          "drinks & snacks":"Drinks & Snacks"
-        };
-
-        const categoryKey =
-          String(category).trim().toLowerCase();
+        let category = item.Category ?? "";
 
         category =
-          categoryMap[categoryKey] || category;
+          categoryMap[String(category).trim().toLowerCase()]
+          || category;
+
+        const priceRaw = item.Price ?? "";
 
         const price =
-          priceRaw === "" || priceRaw === null
-          ? "Price updating"
-          : Number(priceRaw);
-
-        return [
-          product,
-          category,
-          quantity,
-          price,
-          image
-        ];
-
-      })
-      .filter(item => item[0]);
-
-    if(sheetProducts.length){
-
-      // Existing products ko Sheet ke products se replace karega
-      products.length = 0;
-
-      sheetProducts.forEach(product => {
-        products.push(product);
-      });
-
-      // Sheet se products load hone ke baad panel refresh
-      renderProducts();
-      updateCartBar();
-
-      console.log(
-        "GO QUICK: Google Sheet se products loaded:",
-        products.length
-      );
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "GO QUICK Google Sheet connection error:",
-      error
-    );
-
-    // Connection fail hone par existing products
-    // automatically backup ke roop me rahenge.
-
-  }
-
-}
-const productBox = document.getElementById("products");
-const search = document.getElementById("search");
-
-function money(value){
-  if(value === "Price updating") return value;
-  return "₹" + Number(value).toLocaleString("en-IN");
-}
-
-function renderProducts(){
-
-  let filtered = products.filter(p => {
-
-    const categoryMatch =
-      currentCategory === "All Products" ||
-      p[1] === currentCategory;
-
-    const searchMatch =
-      p[0].toLowerCase().includes(searchText.toLowerCase()) ||
-      p[1].toLowerCase().includes(searchText.toLowerCase());
-
-    return categoryMatch && searchMatch;
-  });
-
-  productBox.innerHTML = "";
-
-  filtered.forEach((p,index) => {
-
-    const originalIndex = products.indexOf(p);
-    const qty = cart[originalIndex] || 0;
-
-    const priceHTML =
-      p[3] === "Price updating"
-      ? `<div class="price">Price updating</div>`
-      : `<div class="price normal">${money(p[3])}</div>`;
-
-    let buttonHTML = "";
-
-    if(p[3] === "Price updating"){
-
-      buttonHTML = `
-        <button class="add-btn" disabled
-        style="background:#aaa;cursor:not-allowed">
-        Price Updating
-        </button>
-      `;
-
-    }else if(qty === 0){
-
-      buttonHTML = `
-        <button class="add-btn"
-        onclick="addToCart(${originalIndex})">
-        ADD
-        </button>
-      `;
-
-    }else{
-
-      buttonHTML = `
-        <div class="qty">
-
-          <button onclick="changeQty(${originalIndex},-1)">
-          −
-          </button>
-
-          <span>${qty}</span>
-
-          <button onclick="changeQty(${originalIndex},1)">
-          +
-          </button>
-
-        </div>
-      `;
-    }
-
-    productBox.innerHTML += `
-
-      <div class="product">
-
-        <img
-          src="${p[4]}"
-          alt="${p[0]}"
-          onerror="this.style.display='none'"
-        >
-
-        <div class="product-info">
-
-          <div class="product-name">
-            ${p[0]}
-          </div>
-
-          <div class="product-size">
-            ${p[2]}
-          </div>
-
-          ${priceHTML}
-
-          ${buttonHTML}
-
-        </div>
-
-      </div>
-
-    `;
-  });
-
-  document.getElementById("productCount").textContent =
-    filtered.length + " products";
-
-  document.getElementById("productsHeading").textContent =
-    currentCategory;
-
-  updateCartBar();
-}
-
-function selectCategory(category){
-
-  currentCategory = category;
-
-  search.value = "";
-  searchText = "";
-
-  renderProducts();
-
-  window.scrollTo({
-    top:document.querySelector(".products-title").offsetTop - 20,
-    behavior:"smooth"
-  });
-}
-
-function addToCart(index){
-
-  cart[index] = 1;
-
-  renderProducts();
-}
-
-function changeQty(index,change){
-
-  cart[index] = (cart[index] || 0) + change;
-
-  if(cart[index] <= 0){
-    delete cart[index];
-  }
-
-  renderProducts();
-}
-
-function totalItems(){
-
-  return Object.values(cart).reduce(
-    (sum,qty)=>sum+qty,0
-  );
-}
-
-function total(){
-
-  return Object.keys(cart).reduce((sum,index)=>{
-
-    const p = products[index];
-
-    if(p[3] === "Price updating") return sum;
-
-    return sum + Number(p[3]) * cart[index];
-
-  },0);
-}
-
-function updateCartBar(){
-
-  document.getElementById("cartCount").textContent =
-    totalItems();
-
-  document.getElementById("cartTotal").textContent =
-    total().toLocaleString("en-IN");
-}
-
-search.oninput = function(){
-
-  searchText = this.value;
-
-  currentCategory = "All Products";
-
-  renderProducts();
-};
-function openCart(){
-
-  const modal = document.getElementById("cartModal");
-  const items = document.getElementById("cartItems");
-  const summary = document.getElementById("cartSummary");
-
-  items.innerHTML = "";
-
-  if(totalItems() === 0){
-
-    items.innerHTML = `
-      <p style="padding:20px 0;text-align:center;color:#777">
-        Your cart is empty.
-      </p>
-    `;
-
-  }else{
-
-    Object.keys(cart).forEach(index => {
-
-      const p = products[index];
-      const qty = cart[index];
-
-      items.innerHTML += `
-
-        <div class="cart-row">
-
-          <div>
-            <strong>${p[0]}</strong>
-            <br>
-            <small>${p[2]} × ${qty}</small>
-          </div>
-
-          <div>
-            <strong>
-              ₹${(Number(p[3]) * qty).toLocaleString("en-IN")}
-            </strong>
-
-            <br>
-
-            <button
-              onclick="changeQty(${index},-1);openCart()"
-              style="
-                border:0;
-                background:#eee;
-                border-radius:7px;
-                padding:5px 10px;
-                margin-top:5px;
-              ">
-              −
-            </button>
-
-            <button
-              onclick="changeQty(${index},1);openCart()"
-              style="
-                border:0;
-                background:#0a9b4a;
-                color:white;
-                border-radius:7px;
-                padding:5px 10px;
-                margin-top:5px;
-              ">
-              +
-            </button>
-
-          </div>
-
-        </div>
-      `;
-    });
-  }
-
-  summary.innerHTML = `
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      font-size:21px;
-      font-weight:800;
-      padding:18px 0;
-    ">
-      <span>Total</span>
-      <span>₹${total().toLocaleString("en-IN")}</span>
-    </div>
-  `;
-
-  modal.style.display = "block";
-}
-
-function closeCart(){
-
-  document.getElementById("cartModal").style.display = "none";
-}
-
-function sendOrder(){
-
-  if(totalItems() === 0){
-
-    alert("Please add at least one product to cart.");
-
-    return;
-  }
-
-  const name =
-    document.getElementById("customerName").value.trim();
-
-  const mobile =
-    document.getElementById("mobile").value.trim();
-
-  const address =
-    document.getElementById("address").value.trim();
-
-  if(!name || !mobile || !address){
-
-    alert(
-      "Please fill Customer Name, Mobile Number and Delivery Address."
-    );
-
-    return;
-  }
-
-  let message = `*GO QUICK ORDER*
-
-Customer Name: ${name}
-
-Mobile No.: ${mobile}
-
-Delivery Address:
-${address}
-
-*ORDER ITEMS:*
-`;
-
-  Object.keys(cart).forEach(index => {
-
-    const p = products[index];
-    const qty = cart[index];
-
-    message +=
-      `• ${p[0]} (${p[2]}) × ${qty} = ₹${(
-        Number(p[3]) * qty
-      ).toLocaleString("en-IN")}\n`;
-  });
-
-  message += `
-
-*TOTAL: ₹${total().toLocaleString("en-IN")}*
-
-Thank you for ordering from GO QUICK.`;
-
-  /*
-   * IMPORTANT:
-   * YAHAN APNA GO QUICK WHATSAPP NUMBER LIKHNA HAI.
-   * Example: 91XXXXXXXXXX
-   * +, spaces aur brackets mat lagana.
-   */
-
-  const whatsappNumber = "917417482367";
-  const whatsappURL =
-    "https://wa.me/" +
-    whatsappNumber +
-    "?text=" +
-    encodeURIComponent(message);
-
-  window.location.href = whatsappURL;
-}
-
-window.onclick = function(event){
-
-  const modal = document.getElementById("cartModal");
-
-  if(event.target === modal){
-
-    closeCart();
-  }
-};
-
-renderProducts();
-updateCartBar();
-const GOOGLE_SHEET_API =
-"https://script.google.com/macros/s/AKfycbxeG5DY60jiR4JoJJegTd6ocZcx7gUygT30m-T_HXcW2uc9wJACwVCLHQ7pfw2mUwD9/exec";
-
-function loadProductsFromSheet(){
-
-  const callbackName =
-    "goQuickSheet_" + Date.now();
-
-  window[callbackName] = function(data){
-
-    try{
-
-      if(!Array.isArray(data)){
-        console.log("Sheet data invalid");
-        return;
-      }
-
-      const sheetProducts = data
-        .filter(item => {
-
-          const status = String(
-            item.Status ?? item.status ?? "on"
-          ).trim().toLowerCase();
-
-          return status !== "off";
-
-        })
-        .map(item => {
-
-          let category =
-            item.Category ??
-            item.category ??
-            "";
-
-          const categoryMap = {
-            "fruit & vegetables":"Fruits & Vegetables",
-            "fruits & vegetables":"Fruits & Vegetables",
-            "aata, rice & dal":"Aata, Rice & Dal",
-            "atta, rice & dal":"Aata, Rice & Dal",
-            "oil, ghee & masala":"Oil, Ghee & Masala",
-            "milk & dairy":"Milk & Dairy",
-            "bakery & biscuits":"Bakery & Biscuits",
-            "drinks & snacks":"Drinks & Snacks"
-          };
-
-          category =
-            categoryMap[
-              String(category).trim().toLowerCase()
-            ] || category;
-
-          const priceRaw =
-            item.Price ??
-            item.price ??
-            "";
-
-          const price =
-            priceRaw === ""
+          priceRaw === ""
             ? "Price updating"
             : Number(priceRaw);
 
-          return [
-            item.Product ?? item.product ?? "",
-            category,
-            item.Quantity ?? item.quantity ?? "",
-            price,
-            item.Image ?? item.image ?? ""
-          ];
+        return [
+          item.Product ?? "",
+          category,
+          item.Quantity ?? "",
+          price,
+          item.Image ?? ""
+        ];
+      })
+      .filter(function(item) {
+        return item[0];
+      });
 
-        })
-        .filter(item => item[0]);
+    if (sheetProducts.length > 0) {
 
-      if(sheetProducts.length > 0){
+      products.length = 0;
 
-        products.length = 0;
+      sheetProducts.forEach(function(product) {
+        products.push(product);
+      });
 
-        sheetProducts.forEach(function(product){
-          products.push(product);
-        });
-
-        renderProducts();
-        updateCartBar();
-
-        console.log(
-          "GO QUICK Sheet products:",
-          products.length
-        );
-      }
-
-    }catch(error){
-
-      console.error(
-        "GO QUICK Sheet error:",
-        error
-      );
-
-    }finally{
-
-      delete window[callbackName];
-
-      const oldScript =
-        document.getElementById(callbackName);
-
-      if(oldScript){
-        oldScript.remove();
-      }
-
+      renderProducts();
+      updateCartBar();
     }
 
+    delete window[callbackName];
+
+    const oldScript =
+      document.getElementById(callbackName);
+
+    if (oldScript) {
+      oldScript.remove();
+    }
   };
 
-  const script =
-    document.createElement("script");
+  const script = document.createElement("script");
 
   script.id = callbackName;
 
@@ -1079,16 +561,10 @@ function loadProductsFromSheet(){
     "&t=" +
     Date.now();
 
-  script.onerror = function(){
-
-    console.error(
-      "GO QUICK Sheet connection failed"
-    );
-
+  script.onerror = function() {
+    console.log("GO QUICK: Sheet connection failed");
     delete window[callbackName];
-
     script.remove();
-
   };
 
   document.head.appendChild(script);
