@@ -960,122 +960,138 @@ updateCartBar();
 const GOOGLE_SHEET_API =
 "https://script.google.com/macros/s/AKfycbxeG5DY60jiR4JoJJegTd6ocZcx7gUygT30m-T_HXcW2uc9wJACwVCLHQ7pfw2mUwD9/exec";
 
-async function loadProductsFromSheet(){
+function loadProductsFromSheet(){
 
-  try{
+  const callbackName =
+    "goQuickSheet_" + Date.now();
 
-    const response = await fetch(
-      GOOGLE_SHEET_API + "?t=" + Date.now()
-    );
+  window[callbackName] = function(data){
 
-    if(!response.ok){
-      throw new Error("API Error: " + response.status);
-    }
+    try{
 
-    const data = await response.json();
+      if(!Array.isArray(data)){
+        console.log("Sheet data invalid");
+        return;
+      }
 
-    if(!Array.isArray(data) || data.length === 0){
-      console.log("Sheet me products nahi mile.");
-      return;
-    }
+      const sheetProducts = data
+        .filter(item => {
 
-    const sheetProducts = data
-      .filter(item => {
+          const status = String(
+            item.Status ?? item.status ?? "on"
+          ).trim().toLowerCase();
 
-        const status = String(
-          item.Status ?? item.status ?? "on"
-        ).trim().toLowerCase();
+          return status !== "off";
 
-        return status !== "off";
+        })
+        .map(item => {
 
-      })
-      .map(item => {
+          let category =
+            item.Category ??
+            item.category ??
+            "";
 
-        const product =
-          item.Product ??
-          item.product ??
-          "";
+          const categoryMap = {
+            "fruit & vegetables":"Fruits & Vegetables",
+            "fruits & vegetables":"Fruits & Vegetables",
+            "aata, rice & dal":"Aata, Rice & Dal",
+            "atta, rice & dal":"Aata, Rice & Dal",
+            "oil, ghee & masala":"Oil, Ghee & Masala",
+            "milk & dairy":"Milk & Dairy",
+            "bakery & biscuits":"Bakery & Biscuits",
+            "drinks & snacks":"Drinks & Snacks"
+          };
 
-        let category =
-          item.Category ??
-          item.category ??
-          "";
+          category =
+            categoryMap[
+              String(category).trim().toLowerCase()
+            ] || category;
 
-        const quantity =
-          item.Quantity ??
-          item.quantity ??
-          "";
+          const priceRaw =
+            item.Price ??
+            item.price ??
+            "";
 
-        const priceRaw =
-          item.Price ??
-          item.price ??
-          "";
+          const price =
+            priceRaw === ""
+            ? "Price updating"
+            : Number(priceRaw);
 
-        const image =
-          item.Image ??
-          item.image ??
-          "";
+          return [
+            item.Product ?? item.product ?? "",
+            category,
+            item.Quantity ?? item.quantity ?? "",
+            price,
+            item.Image ?? item.image ?? ""
+          ];
 
-        const categoryMap = {
-          "fruit & vegetables":"Fruits & Vegetables",
-          "fruits & vegetables":"Fruits & Vegetables",
-          "aata, rice & dal":"Aata, Rice & Dal",
-          "atta, rice & dal":"Aata, Rice & Dal",
-          "oil, ghee & masala":"Oil, Ghee & Masala",
-          "milk & dairy":"Milk & Dairy",
-          "bakery & biscuits":"Bakery & Biscuits",
-          "drinks & snacks":"Drinks & Snacks"
-        };
+        })
+        .filter(item => item[0]);
 
-        const categoryKey =
-          String(category).trim().toLowerCase();
+      if(sheetProducts.length > 0){
 
-        category =
-          categoryMap[categoryKey] || category;
+        products.length = 0;
 
-        const price =
-          priceRaw === "" || priceRaw === null
-          ? "Price updating"
-          : Number(priceRaw);
+        sheetProducts.forEach(function(product){
+          products.push(product);
+        });
 
-        return [
-          product,
-          category,
-          quantity,
-          price,
-          image
-        ];
+        renderProducts();
+        updateCartBar();
 
-      })
-      .filter(item => item[0]);
+        console.log(
+          "GO QUICK Sheet products:",
+          products.length
+        );
+      }
 
-    if(sheetProducts.length){
+    }catch(error){
 
-      products.length = 0;
-
-      sheetProducts.forEach(product => {
-        products.push(product);
-      });
-
-      renderProducts();
-      updateCartBar();
-
-      console.log(
-        "GO QUICK: Google Sheet products loaded:",
-        products.length
+      console.error(
+        "GO QUICK Sheet error:",
+        error
       );
 
+    }finally{
+
+      delete window[callbackName];
+
+      const oldScript =
+        document.getElementById(callbackName);
+
+      if(oldScript){
+        oldScript.remove();
+      }
+
     }
 
-  }catch(error){
+  };
+
+  const script =
+    document.createElement("script");
+
+  script.id = callbackName;
+
+  script.src =
+    GOOGLE_SHEET_API +
+    "?callback=" +
+    callbackName +
+    "&t=" +
+    Date.now();
+
+  script.onerror = function(){
 
     console.error(
-      "GO QUICK Google Sheet connection error:",
-      error
+      "GO QUICK Sheet connection failed"
     );
 
-  }
+    delete window[callbackName];
 
+    script.remove();
+
+  };
+
+  document.head.appendChild(script);
 }
 
 loadProductsFromSheet();
