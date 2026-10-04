@@ -1,328 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#087f3e">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GO QUICK - Jo Chahiye, Jab Chahiye</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Helvetica,sans-serif;
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,Helvetica,sans-serif
 }
 
 body{
-  background:#f5f7f6;
-  color:#111;
-  padding-bottom:100px;
+background:#f5f7f6;
+color:#111;
+padding-bottom:100px
 }
 
 .header{
-  background:linear-gradient(135deg,#079447,#12a957);
-  padding:18px 20px 28px;
-  color:white;
+background:linear-gradient(135deg,#079447,#12a957);
+padding:18px 20px 28px;
+color:#fff
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-bottom:18px;
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:18px
 }
 
 .logo{
-  width:68px;
-  height:68px;
-  border-radius:18px;
-  object-fit:cover;
-  background:white;
-  border:3px solid white;
+width:68px;
+height:68px;
+border-radius:18px;
+object-fit:cover;
+background:#fff;
+border:3px solid #fff
 }
 
 .brand h1{
-  font-size:34px;
-  line-height:1;
+font-size:34px
 }
 
 .brand p{
-  font-size:17px;
-  margin-top:8px;
+font-size:17px;
+margin-top:8px
 }
 
 .search{
-  width:100%;
-  border:0;
-  outline:0;
-  background:white;
-  border-radius:22px;
-  padding:18px 20px;
-  font-size:20px;
-  color:#333;
+width:100%;
+border:0;
+outline:0;
+background:#fff;
+border-radius:22px;
+padding:18px 20px;
+font-size:20px
 }
 
 .container{
-  padding:22px;
+padding:22px
 }
 
 .section-title{
-  font-size:30px;
-  font-weight:800;
-  margin-bottom:18px;
+font-size:30px;
+font-weight:800;
+margin-bottom:18px
 }
 
 .categories{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-  margin-bottom:28px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+margin-bottom:28px
 }
 
 .category{
-  background:white;
-  border-radius:22px;
-  padding:14px 10px 18px;
-  text-align:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.10);
-  cursor:pointer;
-  border:1px solid #e8e8e8;
+background:#fff;
+border-radius:22px;
+padding:14px 10px 18px;
+text-align:center;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+cursor:pointer;
+border:1px solid #e8e8e8
 }
 
 .category img{
-  width:100%;
-  height:120px;
-  object-fit:contain;
-  border-radius:16px;
-  background:#f7faf8;
-  margin-bottom:12px;
+width:100%;
+height:120px;
+object-fit:contain;
+border-radius:16px;
+background:#f7faf8;
+margin-bottom:12px
 }
 
 .category h3{
-  font-size:18px;
-  line-height:1.15;
+font-size:18px;
+line-height:1.15
 }
 
 .products-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:18px 0;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:18px 0
 }
 
 .products-title h2{
-  font-size:30px;
+font-size:30px
 }
 
 .count{
-  color:#777;
-  font-size:18px;
+color:#777;
+font-size:18px
 }
 
 .products{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:18px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px
 }
 
 .product{
-  background:white;
-  border-radius:22px;
-  overflow:hidden;
-  border:1px solid #e5e5e5;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-  padding-bottom:15px;
+background:#fff;
+border-radius:22px;
+overflow:hidden;
+border:1px solid #e5e5e5;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+padding-bottom:15px
 }
 
 .product img{
-  width:100%;
-  height:190px;
-  object-fit:contain;
-  background:#f1f7f3;
-  padding:12px;
+width:100%;
+height:190px;
+object-fit:contain;
+background:#f1f7f3;
+padding:12px
 }
 
 .product-info{
-  padding:12px 14px 0;
+padding:12px 14px 0
 }
 
 .product-name{
-  font-size:19px;
-  font-weight:800;
-  min-height:46px;
+font-size:19px;
+font-weight:800;
+min-height:46px
 }
 
 .product-size{
-  color:#777;
-  margin:6px 0;
-  font-size:15px;
+color:#777;
+margin:6px 0;
+font-size:15px
 }
 
 .price{
-  color:#a16b00;
-  font-size:19px;
-  font-weight:800;
-  margin:7px 0;
+font-size:19px;
+font-weight:800;
+margin:7px 0
 }
 
-.price.normal{
-  color:#111;
+.price.updating{
+color:#a16b00
 }
 
 .add-btn{
-  width:100%;
-  border:0;
-  background:#0a9b4a;
-  color:white;
-  border-radius:12px;
-  padding:12px;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
+width:100%;
+border:0;
+background:#0a9b4a;
+color:#fff;
+border-radius:12px;
+padding:12px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer
 }
 
 .qty{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#0a9b4a;
-  color:white;
-  border-radius:12px;
-  overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#0a9b4a;
+color:#fff;
+border-radius:12px;
+overflow:hidden
 }
 
 .qty button{
-  width:42px;
-  height:42px;
-  border:0;
-  background:#087c3c;
-  color:white;
-  font-size:24px;
+width:42px;
+height:42px;
+border:0;
+background:#087c3c;
+color:#fff;
+font-size:24px
 }
 
 .qty span{
-  font-size:18px;
-  font-weight:bold;
+font-size:18px;
+font-weight:bold
+}
+
+.empty{
+grid-column:1/-1;
+text-align:center;
+color:#777;
+padding:40px
 }
 
 .bottom-cart{
-  position:fixed;
-  left:22px;
-  right:22px;
-  bottom:18px;
-  background:#ff7900;
-  color:white;
-  border-radius:20px;
-  padding:18px;
-  text-align:center;
-  font-size:20px;
-  font-weight:800;
-  box-shadow:0 5px 18px rgba(0,0,0,.25);
-  z-index:100;
-  cursor:pointer;
+position:fixed;
+left:22px;
+right:22px;
+bottom:18px;
+background:#ff7900;
+color:#fff;
+border-radius:20px;
+padding:18px;
+text-align:center;
+font-size:20px;
+font-weight:800;
+box-shadow:0 5px 18px rgba(0,0,0,.25);
+z-index:100;
+cursor:pointer
 }
 
 .modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:200;
-  padding:20px;
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+z-index:200;
+padding:20px
 }
 
 .modal-box{
-  background:white;
-  max-width:520px;
-  margin:40px auto;
-  border-radius:24px;
-  padding:22px;
-  max-height:88vh;
-  overflow:auto;
+background:#fff;
+max-width:520px;
+margin:40px auto;
+border-radius:24px;
+padding:22px;
+max-height:88vh;
+overflow:auto
 }
 
 .modal-box h2{
-  margin-bottom:18px;
-  font-size:28px;
+margin-bottom:18px;
+font-size:28px
 }
 
 .cart-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:12px 0;
-  border-bottom:1px solid #ddd;
-}
-
-.cart-row strong{
-  font-size:16px;
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:12px 0;
+border-bottom:1px solid #ddd
 }
 
 .close{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:12px;
-  margin-top:15px;
-  background:#ddd;
-  font-size:17px;
+width:100%;
+padding:13px;
+border:0;
+border-radius:12px;
+margin-top:15px;
+background:#ddd;
+font-size:17px;
+cursor:pointer
 }
 
 .checkout{
-  background:#0a9b4a;
-  color:white;
+background:#0a9b4a;
+color:#fff
 }
 
 .form input,
 .form textarea{
-  width:100%;
-  padding:13px;
-  margin:7px 0;
-  border:1px solid #ccc;
-  border-radius:10px;
-  font-size:16px;
+width:100%;
+padding:13px;
+margin:7px 0;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px
 }
 
 .form textarea{
-  height:90px;
-  resize:none;
+height:90px;
+resize:none
 }
 
 @media(max-width:420px){
-  .container{
-    padding:18px;
-  }
 
-  .categories{
-    gap:12px;
-  }
+.container{
+padding:18px
+}
 
-  .category{
-    padding:10px 6px 14px;
-  }
+.categories{
+gap:12px
+}
 
-  .category img{
-    height:105px;
-  }
+.category{
+padding:10px 6px 14px
+}
 
-  .category h3{
-    font-size:16px;
-  }
+.category img{
+height:105px
+}
 
-  .products{
-    gap:14px;
-  }
+.category h3{
+font-size:16px
+}
 
-  .product img{
-    height:165px;
-  }
+.products{
+gap:14px
+}
 
-  .brand h1{
-    font-size:30px;
-  }
+.product img{
+height:165px
+}
+
+.brand h1{
+font-size:30px
+}
+
 }
 </style>
 </head>
@@ -332,11 +334,21 @@ body{
 <header class="header">
 
 <div class="brand">
-<img class="logo" src="logo.png" alt="GO QUICK Logo">
+
+<img
+class="logo"
+src="logo.png"
+alt="GO QUICK Logo"
+>
+
 <div>
+
 <h1>GO QUICK</h1>
+
 <p>Jo Chahiye, Jab Chahiye</p>
+
 </div>
+
 </div>
 
 <input
@@ -348,231 +360,995 @@ placeholder="🔎 Search for atta, dal, milk and more..."
 
 </header>
 
+
 <main class="container">
 
-<h2 class="section-title">Shop by category</h2>
+<h2 class="section-title">
+Shop by category
+</h2>
+
 
 <div class="categories">
 
-<div class="category" onclick="selectCategory('Fruits & Vegetables')">
+<div
+class="category"
+onclick="selectCategory('Fruits & Vegetables')"
+>
+
 <img src="tomato.jpg" alt="Fruits & Vegetables">
-<h3>Fruits &<br>Vegetables</h3>
+
+<h3>
+Fruits &<br>
+Vegetables
+</h3>
+
 </div>
 
-<div class="category" onclick="selectCategory('Aata, Rice & Dal')">
+
+<div
+class="category"
+onclick="selectCategory('Aata, Rice & Dal')"
+>
+
 <img src="ashirvaad.jpg" alt="Aata Rice Dal">
-<h3>Aata, Rice &<br>Dal</h3>
+
+<h3>
+Aata, Rice &<br>
+Dal
+</h3>
+
 </div>
 
-<div class="category" onclick="selectCategory('Oil, Ghee & Masala')">
+
+<div
+class="category"
+onclick="selectCategory('Oil, Ghee & Masala')"
+>
+
 <img src="mustard.jpg" alt="Oil Ghee Masala">
-<h3>Oil, Ghee &<br>Masala</h3>
+
+<h3>
+Oil, Ghee &<br>
+Masala
+</h3>
+
 </div>
 
-<div class="category" onclick="selectCategory('Milk & Dairy')">
+
+<div
+class="category"
+onclick="selectCategory('Milk & Dairy')"
+>
+
 <img src="amul_milk.jpg" alt="Milk Dairy">
-<h3>Milk & Dairy</h3>
+
+<h3>
+Milk & Dairy
+</h3>
+
 </div>
 
-<div class="category" onclick="selectCategory('Bakery & Biscuits')">
+
+<div
+class="category"
+onclick="selectCategory('Bakery & Biscuits')"
+>
+
 <img src="white_bread.jpg" alt="Bakery">
-<h3>Bakery &<br>Biscuits</h3>
+
+<h3>
+Bakery &<br>
+Biscuits
+</h3>
+
 </div>
 
-<div class="category" onclick="selectCategory('Drinks & Snacks')">
+
+<div
+class="category"
+onclick="selectCategory('Drinks & Snacks')"
+>
+
 <img src="soya.jpg" alt="Drinks Snacks">
-<h3>Drinks &<br>Snacks</h3>
+
+<h3>
+Drinks &<br>
+Snacks
+</h3>
+
 </div>
 
 </div>
+
 
 <div class="products-title">
-<h2 id="productsHeading">All Products</h2>
-<span class="count" id="productCount">0 products</span>
+
+<h2 id="productsHeading">
+All Products
+</h2>
+
+<span
+class="count"
+id="productCount"
+>
+0 products
+</span>
+
 </div>
 
-<div class="products" id="products"></div>
+
+<div
+class="products"
+id="products"
+></div>
 
 </main>
 
-<div class="bottom-cart" onclick="openCart()">
-🛒 VIEW CART • <span id="cartCount">0</span> ITEMS • ₹<span id="cartTotal">0</span>
+
+<div
+class="bottom-cart"
+onclick="openCart()"
+>
+
+🛒 VIEW CART •
+<span id="cartCount">0</span>
+ITEMS • ₹
+<span id="cartTotal">0</span>
+
 </div>
 
-<div class="modal" id="cartModal">
+
+<div
+class="modal"
+id="cartModal"
+>
+
 <div class="modal-box">
 
-<h2>🛒 Your Cart</h2>
+<h2>
+🛒 Your Cart
+</h2>
 
 <div id="cartItems"></div>
 
 <div id="cartSummary"></div>
 
+
 <div class="form">
-<input id="customerName" placeholder="Customer Name">
-<input id="mobile" placeholder="Mobile Number" type="tel">
-<textarea id="address" placeholder="Delivery Address"></textarea>
+
+<input
+id="customerName"
+placeholder="Customer Name"
+>
+
+<input
+id="mobile"
+placeholder="Mobile Number"
+type="tel"
+>
+
+<textarea
+id="address"
+placeholder="Delivery Address"
+></textarea>
+
 </div>
 
-<button class="close checkout" onclick="sendOrder()">
+
+<button
+class="close checkout"
+onclick="sendOrder()"
+>
+
 📲 PLACE ORDER
+
 </button>
 
-<button class="close" onclick="closeCart()">Close</button>
+
+<button
+class="close"
+onclick="closeCart()"
+>
+
+Close
+
+</button>
 
 </div>
+
 </div>
+
+
 <script>
-const products = [
 
-["Apple","Fruits & Vegetables","1 kg","200","apple.png"],
-["Banana","Fruits & Vegetables","1 kg","50","banana.png"],
-["Orange","Fruits & Vegetables","1 kg","Price updating","orange.jpg"],
-["Tomato","Fruits & Vegetables","1 kg","70","tomato.jpg"],
-["Onion","Fruits & Vegetables","1 kg","Price updating","onion.jpg"],
-["Capsicum","Fruits & Vegetables","1 kg","Price updating","capsicum.jpg"],
-["Carrot","Fruits & Vegetables","1 kg","Price updating","carrot.jpg"],
-["Pineapple","Fruits & Vegetables","1 pc","Price updating","pineapple.jpg"],
-["Spinach","Fruits & Vegetables","1 bunch","Price updating","spinach.jpg"],
-["Coriander","Fruits & Vegetables","1 bunch","Price updating","coriander.jpg"],
-["Cauliflower","Fruits & Vegetables","1 pc","Price updating","cauliflower.jpg"],
-["Grapes","Fruits & Vegetables","1 kg","Price updating","grapes.jpg"],
+const products = [];
 
-["Aashirvaad Multigrains Atta","Aata, Rice & Dal","5 kg",339,"ashirvaad.jpg"],
-["Fortune Chakki Fresh Atta","Aata, Rice & Dal","10 kg",485,"fortune_atta.webp"],
-["Daawat Sona Masoori Rice","Aata, Rice & Dal","1 kg",89,"daawat.jpg"],
-["Daawat Sona Masoori Rice","Aata, Rice & Dal","10 kg",738,"daawat.jpg"],
-["Toor Dal","Aata, Rice & Dal","500 g",91.50,"daawat.jpg"],
-["Toor Dal","Aata, Rice & Dal","1 kg",183,"daawat.jpg"],
-["Moong Dal Chilka","Aata, Rice & Dal","500 g",89,"daawat.jpg"],
-["Chana Dal","Aata, Rice & Dal","500 g",67,"daawat.jpg"],
-["Masoor Dal","Aata, Rice & Dal","500 g",72,"daawat.jpg"],
-["Besan","Aata, Rice & Dal","1 kg",99,"daawat.jpg"],
-["Sooji","Aata, Rice & Dal","500 g",34,"daawat.jpg"],
-["Maida","Aata, Rice & Dal","500 g",47,"daawat.jpg"],
+let cart = {};
 
-["Fortune Premium Kachi Ghani Mustard Oil","Oil, Ghee & Masala","1 kg",198,"mustard.jpg"],
-["Fortune Soya Health Refined Soyabean Oil","Oil, Ghee & Masala","1 kg",178,"soya.jpg"],
-["Amul Pure Ghee","Oil, Ghee & Masala","1 kg",631,"amul_ghee.jpg"],
-["Patanjali Cow's Ghee","Oil, Ghee & Masala","1 kg",747,"patanjali_ghee.jpg"],
-["Patanjali Cow's Ghee","Oil, Ghee & Masala","200 ml",180,"patanjali_ghee.jpg"],
+let currentCategory = "All Products";
 
-["Amul Gold Milk","Milk & Dairy","500 ml",36,"amul_milk.jpg"],
-["Amul Masti Dahi","Milk & Dairy","200 g",25,"amul_dahi.jpg"],
-["Amul Masti Dahi","Milk & Dairy","500 g",35,"amul_dahi.jpg"],
+let searchText = "";
 
-["Mrs. Bector's English Oven White Bread","Bakery & Biscuits","Pack",70,"white_bread.jpg"],
-["Mrs. Bector's English Oven Burger Buns","Bakery & Biscuits","6 pcs / 300 g",55,"burger_buns.jpg"],
-["Britannia Zero Maida Atta Bread","Bakery & Biscuits","Pack",60,"britannia_bread.jpg"]
+const whatsappNumber = "917417482367";
+
+
+function money(value){
+
+if(
+typeof value === "number" &&
+!Number.isNaN(value)
+){
+
+return "₹" +
+value
+.toFixed(2)
+.replace(/\.00$/,"");
+
+}
+
+return "Price updating";
+
+}
+
+
+function renderProducts(){
+
+const box =
+document.getElementById("products");
+
+const heading =
+document.getElementById("productsHeading");
+
+const count =
+document.getElementById("productCount");
+
+
+const list =
+products
+.map(function(p,index){
+
+return {
+p:p,
+index:index
+};
+
+})
+.filter(function(item){
+
+const categoryOK =
+currentCategory === "All Products" ||
+item.p[1] === currentCategory;
+
+
+const searchOK =
+!searchText ||
+item.p[0]
+.toLowerCase()
+.includes(searchText) ||
+
+item.p[1]
+.toLowerCase()
+.includes(searchText);
+
+
+return categoryOK && searchOK;
+
+});
+
+
+heading.textContent =
+currentCategory;
+
+
+count.textContent =
+list.length + " products";
+
+
+if(!list.length){
+
+box.innerHTML =
+'<div class="empty">No products available.</div>';
+
+return;
+
+}
+
+
+box.innerHTML =
+list
+.map(function(item){
+
+const p =
+item.p;
+
+const index =
+item.index;
+
+const qty =
+cart[index] || 0;
+
+
+let priceHTML;
+
+if(
+typeof p[3] === "number"
+){
+
+priceHTML =
+'<div class="price">' +
+money(p[3]) +
+'</div>';
+
+}else{
+
+priceHTML =
+'<div class="price updating">' +
+p[3] +
+'</div>';
+
+}
+
+
+let buttonHTML;
+
+
+if(qty > 0){
+
+buttonHTML =
+
+'<div class="qty">' +
+
+'<button onclick="changeQty(' +
+index +
+',-1)">−</button>' +
+
+'<span>' +
+qty +
+'</span>' +
+
+'<button onclick="changeQty(' +
+index +
+',1)">+</button>' +
+
+'</div>';
+
+}else{
+
+buttonHTML =
+
+'<button class="add-btn" ' +
+'onclick="addToCart(' +
+index +
+')">' +
+
+'ADD' +
+
+'</button>';
+
+}
+
+
+return
+
+'<div class="product">' +
+
+'<img src="' +
+p[4] +
+'" alt="' +
+p[0] +
+'">' +
+
+'<div class="product-info">' +
+
+'<div class="product-name">' +
+p[0] +
+'</div>' +
+
+'<div class="product-size">' +
+p[2] +
+'</div>' +
+
+priceHTML +
+
+buttonHTML +
+
+'</div>' +
+
+'</div>';
+
+})
+
+.join("");
+
+}
+
+
+function selectCategory(category){
+
+currentCategory =
+category;
+
+renderProducts();
+
+}
+
+
+function addToCart(index){
+
+cart[index] =
+(cart[index] || 0) + 1;
+
+renderProducts();
+
+updateCartBar();
+
+}
+
+
+function changeQty(index,change){
+
+cart[index] =
+(cart[index] || 0) + change;
+
+
+if(cart[index] <= 0){
+
+delete cart[index];
+
+}
+
+
+renderProducts();
+
+updateCartBar();
+
+}
+
+
+function totalItems(){
+
+return Object
+.values(cart)
+.reduce(function(a,b){
+
+return a+b;
+
+},0);
+
+}
+
+
+function total(){
+
+return Object
+.keys(cart)
+.reduce(function(sum,index){
+
+const price =
+products[index][3];
+
+
+if(
+typeof price !== "number"
+){
+
+return sum;
+
+}
+
+
+return sum +
+price *
+cart[index];
+
+},0);
+
+}
+
+
+function updateCartBar(){
+
+document.getElementById(
+"cartCount"
+).textContent =
+totalItems();
+
+
+document.getElementById(
+"cartTotal"
+).textContent =
+total()
+.toFixed(2)
+.replace(/\.00$/,"");
+
+}
+
+
+function openCart(){
+
+const items =
+document.getElementById(
+"cartItems"
+);
+
+const summary =
+document.getElementById(
+"cartSummary"
+);
+
+
+if(totalItems() === 0){
+
+items.innerHTML =
+"<p>Your cart is empty.</p>";
+
+summary.innerHTML = "";
+
+}else{
+
+items.innerHTML =
+Object
+.keys(cart)
+.map(function(index){
+
+const p =
+products[index];
+
+const qty =
+cart[index];
+
+
+const lineTotal =
+typeof p[3] === "number"
+? p[3] * qty
+: 0;
+
+
+return
+
+'<div class="cart-row">' +
+
+'<strong>' +
+p[0] +
+" × " +
+qty +
+'</strong>' +
+
+'<span>' +
+money(lineTotal) +
+'</span>' +
+
+'</div>';
+
+})
+
+.join("");
+
+
+summary.innerHTML =
+"<h3>Total: " +
+money(total()) +
+"</h3>";
+
+}
+
+
+document.getElementById(
+"cartModal"
+).style.display =
+"block";
+
+}
+
+
+function closeCart(){
+
+document.getElementById(
+"cartModal"
+).style.display =
+"none";
+
+}
+
+
+function sendOrder(){
+
+if(totalItems() === 0){
+
+alert("Cart empty hai.");
+
+return;
+
+}
+
+
+const name =
+document
+.getElementById("customerName")
+.value
+.trim();
+
+
+const mobile =
+document
+.getElementById("mobile")
+.value
+.trim();
+
+
+const address =
+document
+.getElementById("address")
+.value
+.trim();
+
+
+if(
+!name ||
+!mobile ||
+!address
+){
+
+alert(
+"Customer Name, Mobile Number aur Address bhariye."
+);
+
+return;
+
+}
+
+
+let message =
+
+"🛒 GO QUICK ORDER\n\n" +
+
+"Customer: " +
+name +
+"\n" +
+
+"Mobile: " +
+mobile +
+"\n" +
+
+"Address: " +
+address +
+"\n\n" +
+
+"Items:\n";
+
+
+Object
+.keys(cart)
+.forEach(function(index){
+
+const p =
+products[index];
+
+const qty =
+cart[index];
+
+
+const lineTotal =
+typeof p[3] === "number"
+? p[3] * qty
+: 0;
+
+
+message +=
+
+"• " +
+p[0] +
+" (" +
+p[2] +
+") × " +
+qty +
+" = " +
+money(lineTotal) +
+"\n";
+
+});
+
+
+message +=
+"\nTotal: " +
+money(total());
+
+
+window.open(
+
+"https://wa.me/" +
+whatsappNumber +
+"?text=" +
+encodeURIComponent(message),
+
+"_blank"
+
+);
+
+}
+
+
+document
+.getElementById("search")
+.addEventListener(
+"input",
+function(){
+
+searchText =
+this.value
+.trim()
+.toLowerCase();
+
+renderProducts();
+
+}
+);
+
+
+/* =========================
+   GOOGLE SHEET CONNECTION
+   ========================= */
+
+const GOOGLE_SHEET_API =
+
+"https://script.google.com/macros/s/AKfycbxeG5DY60jiR4JoJJegTd6ocZcx7gUygT30m-T_HXcW2uc9wJACwVCLHQ7pfw2mUwD9/exec";
+
+
+function loadProductsFromSheet(){
+
+const callbackName =
+"goQuickProducts_" +
+Date.now();
+
+
+window[callbackName] =
+function(data){
+
+try{
+
+
+if(!Array.isArray(data)){
+
+console.log(
+"Invalid Sheet data"
+);
+
+return;
+
+}
+
+
+const categoryMap = {
+
+"fruit & vegetables":
+"Fruits & Vegetables",
+
+"fruits & vegetables":
+"Fruits & Vegetables",
+
+"aata, rice & dal":
+"Aata, Rice & Dal",
+
+"atta, rice & dal":
+"Aata, Rice & Dal",
+
+"oil, ghee & masala":
+"Oil, Ghee & Masala",
+
+"milk & dairy":
+"Milk & Dairy",
+
+"bakery & biscuits":
+"Bakery & Biscuits",
+
+"drinks & snacks":
+"Drinks & Snacks"
+
+};
+
+
+const sheetProducts =
+
+data
+
+.filter(function(item){
+
+const status =
+String(
+item.Status ?? "on"
+)
+.trim()
+.toLowerCase();
+
+
+return status !== "off";
+
+})
+
+
+.map(function(item){
+
+let category =
+item.Category ?? "";
+
+
+category =
+categoryMap[
+String(category)
+.trim()
+.toLowerCase()
+]
+||
+category;
+
+
+const priceRaw =
+item.Price ?? "";
+
+
+const price =
+
+priceRaw === "" ||
+priceRaw === null
+
+?
+
+"Price updating"
+
+:
+
+Number(priceRaw);
+
+
+return [
+
+String(
+item.Product ?? ""
+).trim(),
+
+category,
+
+String(
+item.Quantity ?? ""
+).trim(),
+
+price,
+
+String(
+item.Image ?? ""
+).trim()
 
 ];
 
-let cart = {};
-let currentCategory = "All Products";
-let searchText = "";
-const GOOGLE_SHEET_API =
-"https://script.google.com/macros/s/AKfycbxeG5DY60jiR4JoJJegTd6ocZcx7gUygT30m-T_HXcW2uc9wJACwVCLHQ7pfw2mUwD9/exec";
+})
 
-function loadProductsFromSheet() {
 
-  const callbackName = "goQuickProducts_" + Date.now();
+.filter(function(item){
 
-  window[callbackName] = function(data) {
+return item[0];
 
-    if (!Array.isArray(data)) {
-      console.log("Invalid Sheet data");
-      return;
-    }
+});
 
-    const categoryMap = {
-      "fruit & vegetables": "Fruits & Vegetables",
-      "fruits & vegetables": "Fruits & Vegetables",
-      "aata, rice & dal": "Aata, Rice & Dal",
-      "atta, rice & dal": "Aata, Rice & Dal",
-      "oil, ghee & masala": "Oil, Ghee & Masala",
-      "milk & dairy": "Milk & Dairy",
-      "bakery & biscuits": "Bakery & Biscuits",
-      "drinks & snacks": "Drinks & Snacks"
-    };
 
-    const sheetProducts = data
-      .filter(function(item) {
-        return String(item.Status ?? "on")
-          .trim()
-          .toLowerCase() !== "off";
-      })
-      .map(function(item) {
+if(
+sheetProducts.length > 0
+){
 
-        let category = item.Category ?? "";
+products.length = 0;
 
-        category =
-          categoryMap[String(category).trim().toLowerCase()]
-          || category;
 
-        const priceRaw = item.Price ?? "";
+sheetProducts.forEach(
+function(product){
 
-        const price =
-          priceRaw === ""
-            ? "Price updating"
-            : Number(priceRaw);
+products.push(product);
 
-        return [
-          item.Product ?? "",
-          category,
-          item.Quantity ?? "",
-          price,
-          item.Image ?? ""
-        ];
-      })
-      .filter(function(item) {
-        return item[0];
-      });
+});
 
-    if (sheetProducts.length > 0) {
 
-      products.length = 0;
+renderProducts();
 
-      sheetProducts.forEach(function(product) {
-        products.push(product);
-      });
+updateCartBar();
 
-      renderProducts();
-      updateCartBar();
-    }
 
-    delete window[callbackName];
+console.log(
+"GO QUICK Sheet products loaded:",
+products.length
+);
 
-    const oldScript =
-      document.getElementById(callbackName);
-
-    if (oldScript) {
-      oldScript.remove();
-    }
-  };
-
-  const script = document.createElement("script");
-
-  script.id = callbackName;
-
-  script.src =
-    GOOGLE_SHEET_API +
-    "?callback=" +
-    callbackName +
-    "&t=" +
-    Date.now();
-
-  script.onerror = function() {
-    console.log("GO QUICK: Sheet connection failed");
-    delete window[callbackName];
-    script.remove();
-  };
-
-  document.head.appendChild(script);
 }
 
+
+}catch(error){
+
+console.error(
+"GO QUICK Sheet error:",
+error
+);
+
+
+}finally{
+
+
+delete window[callbackName];
+
+
+const oldScript =
+document.getElementById(
+callbackName
+);
+
+
+if(oldScript){
+
+oldScript.remove();
+
+}
+
+}
+
+};
+
+
+const script =
+document.createElement(
+"script"
+);
+
+
+script.id =
+callbackName;
+
+
+script.src =
+
+GOOGLE_SHEET_API +
+
+"?callback=" +
+
+encodeURIComponent(
+callbackName
+) +
+
+"&t=" +
+
+Date.now();
+
+
+script.onerror =
+function(){
+
+console.log(
+"GO QUICK: Sheet connection failed"
+);
+
+delete window[
+callbackName
+];
+
+script.remove();
+
+};
+
+
+document
+.head
+.appendChild(script);
+
+}
+
+
+renderProducts();
+
+updateCartBar();
+
 loadProductsFromSheet();
+
 </script>
-<button id="installBtn" style="
+
+
+<button
+id="installBtn"
+style="
 position:fixed;
 bottom:20px;
 right:20px;
@@ -585,42 +1361,93 @@ padding:14px 20px;
 font-size:16px;
 font-weight:bold;
 box-shadow:0 4px 12px rgba(0,0,0,.25);
-">
+"
+>
+
 📱 Install GO QUICK
+
 </button>
+
+
 <script>
+
 let deferredPrompt;
 
-window.addEventListener("beforeinstallprompt", function(e) {
-  e.preventDefault();
-  deferredPrompt = e;
-});
 
-document.getElementById("installBtn").addEventListener("click", async function() {
+window.addEventListener(
+"beforeinstallprompt",
+function(e){
 
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-  } else {
-    alert("Chrome ke 3 dots ⋮ par tap karein, phir 'Add to Home screen' select karein.");
-  }
+e.preventDefault();
 
-});
+deferredPrompt = e;
+
+}
+);
+
+
+document
+.getElementById("installBtn")
+.addEventListener(
+"click",
+async function(){
+
+if(deferredPrompt){
+
+deferredPrompt.prompt();
+
+await deferredPrompt.userChoice;
+
+deferredPrompt = null;
+
+}else{
+
+alert(
+"Chrome ke 3 dots ⋮ par tap karein, phir 'Add to Home screen' select karein."
+);
+
+}
+
+}
+);
+
 </script>
+
 
 <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("sw.js")
-      .then(function() {
-        console.log("GO QUICK Service Worker registered");
-      })
-      .catch(function(error) {
-        console.log("Service Worker error:", error);
-      });
-  });
+
+if(
+"serviceWorker"
+in navigator
+){
+
+window.addEventListener(
+"load",
+function(){
+
+navigator.serviceWorker
+.register("sw.js")
+.then(function(){
+
+console.log(
+"GO QUICK Service Worker registered"
+);
+
+})
+.catch(function(error){
+
+console.log(
+"Service Worker error:",
+error
+);
+
+});
+
+});
+
 }
+
 </script>
+
 </body>
 </html>
