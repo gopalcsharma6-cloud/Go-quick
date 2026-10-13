@@ -9,50 +9,63 @@
 <title>GO QUICK - Jo Chahiye, Jab Chahiye</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f5f7f6;color:#111;padding-bottom:100px}
-.header{background:linear-gradient(135deg,#079447,#12a957);padding:18px 20px 25px;color:white}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+body{background:#f5f7f6;color:#111;padding-bottom:145px}
+.header{background:linear-gradient(135deg,#079447,#12a957);padding:18px 20px 25px;color:#fff}
 .brand{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.logo{width:65px;height:65px;border-radius:16px;object-fit:cover;background:white}
+.logo{width:65px;height:65px;border-radius:16px;object-fit:cover;background:#fff;border:2px solid #fff}
 .brand h1{font-size:32px}
-.brand p{margin-top:6px}
-.search{width:100%;padding:16px;border:0;border-radius:20px;font-size:17px}
+.brand p{font-size:16px;margin-top:6px}
+.search{width:100%;padding:16px 18px;border:0;border-radius:20px;font-size:17px;outline:none}
 .container{padding:18px}
-.section-title{font-size:27px;margin-bottom:18px}
-.categories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:28px}
-.category{background:white;border-radius:20px;padding:10px 6px 15px;text-align:center;box-shadow:0 3px 10px #0001;border:1px solid #eee;cursor:pointer}
+.section-title{font-size:27px;font-weight:800;margin-bottom:18px}
+.categories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:25px}
+.category{background:#fff;border-radius:20px;padding:10px 6px 15px;text-align:center;box-shadow:0 3px 10px #0001;border:1px solid #eee;cursor:pointer}
 .category img{width:100%;height:100px;object-fit:contain;background:#f7faf8;border-radius:12px;margin-bottom:10px}
 .category h3{font-size:15px;line-height:1.2}
+.status{font-size:14px;color:#555;margin:10px 0 18px;overflow-wrap:anywhere}
 .products-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:18px 0}
 .products-title h2{font-size:26px}
-.count{font-size:15px;color:#777}
+.count{font-size:15px;color:#777;white-space:nowrap}
 .products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.product{background:white;border-radius:18px;overflow:hidden;border:1px solid #eee;box-shadow:0 2px 8px #0001;padding-bottom:12px}
-.product img{width:100%;height:155px;object-fit:contain;background:#f1f7f3;padding:10px}
+.product{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #eee;box-shadow:0 2px 8px #0001;padding-bottom:12px;min-width:0}
+.product img{display:block;width:100%;height:155px;object-fit:contain;background:#f1f7f3;padding:10px}
 .product-info{padding:10px}
 .product-name{font-size:17px;font-weight:bold;overflow-wrap:anywhere;min-height:40px}
 .product-size{font-size:14px;color:#777;margin:6px 0}
 .price{font-size:18px;font-weight:bold;margin:8px 0}
 .updating{color:#a16b00;font-size:14px}
-.add-btn,.qty button{background:#087f3e;color:white;border:0;border-radius:9px;padding:10px;font-weight:bold}
-.add-btn{width:100%;font-size:16px}
+.add-btn{width:100%;background:#087f3e;color:white;border:0;border-radius:9px;padding:12px 8px;font-size:16px;font-weight:bold}
 .qty{display:flex;justify-content:space-between;align-items:center;background:#087f3e;color:white;border-radius:9px}
-.qty button{font-size:22px;width:42px}
+.qty button{background:#066b34;color:white;border:0;font-size:23px;width:42px;height:42px}
 .qty span{font-weight:bold}
 .empty{grid-column:1/-1;text-align:center;color:#666;padding:35px 10px}
-.status{font-size:14px;color:#555;margin:8px 0 16px}
-.bottom-cart{position:fixed;bottom:16px;left:16px;right:16px;background:#ff7900;color:white;padding:17px;border-radius:17px;text-align:center;font-size:18px;font-weight:bold;box-shadow:0 4px 15px #0003;z-index:100}
+.bottom-cart{position:fixed;left:12px;right:12px;bottom:10px;background:#ff7900;color:white;padding:14px 8px;border-radius:16px;text-align:center;font-size:17px;font-weight:bold;box-shadow:0 4px 15px #0003;z-index:100;cursor:pointer}
+.install{position:fixed;bottom:78px;right:14px;z-index:99;background:#16a34a;color:white;border:0;border-radius:25px;padding:11px 14px;font-size:14px;font-weight:bold;box-shadow:0 4px 12px #0003}
 .modal{display:none;position:fixed;inset:0;background:#0009;z-index:200;padding:15px}
-.modal-box{background:white;max-width:520px;margin:25px auto;padding:20px;border-radius:20px;max-height:90vh;overflow:auto}
-.modal-box h2{margin-bottom:15px}
+.modal-box{background:#fff;max-width:520px;margin:20px auto;border-radius:22px;padding:20px;max-height:90vh;overflow:auto}
+.modal-box h2{font-size:27px;margin-bottom:16px}
 .cart-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #ddd}
-.form input,.form textarea{width:100%;padding:13px;margin:7px 0;border:1px solid #ccc;border-radius:9px;font-size:16px}
-.form textarea{height:85px}
+.cart-row span{text-align:right}
+.form input,.form textarea{width:100%;padding:13px;margin:7px 0;border:1px solid #ccc;border-radius:10px;font-size:16px}
+.form textarea{height:85px;resize:vertical}
 .action{width:100%;padding:13px;border:0;border-radius:10px;margin-top:12px;font-size:16px;font-weight:bold}
 .checkout{background:#087f3e;color:white}
-.close{background:#ddd}
-.install{position:fixed;bottom:85px;right:15px;z-index:99;background:#16a34a;color:white;border:0;border-radius:25px;padding:12px 15px;font-weight:bold}
-@media(max-width:360px){.categories{gap:7px}.category h3{font-size:13px}.products-title h2{font-size:22px}.product img{height:130px}}
+.close{background:#ddd;color:#111}
+@media(max-width:360px){
+.container{padding:12px}
+.categories{gap:7px}
+.category h3{font-size:13px}
+.category img{height:85px}
+.products{gap:9px}
+.product img{height:125px}
+.products-title h2{font-size:22px}
+.count{font-size:13px}
+.product-info{padding:8px}
+.product-name{font-size:15px}
+.bottom-cart{font-size:15px}
+.install{font-size:12px;padding:10px 12px}
+}
 </style>
 </head>
 
@@ -60,32 +73,57 @@ body{background:#f5f7f6;color:#111;padding-bottom:100px}
 <header class="header">
   <div class="brand">
     <img class="logo" src="logo.png" alt="GO QUICK Logo">
-    <div><h1>GO QUICK</h1><p>Jo Chahiye, Jab Chahiye</p></div>
+    <div>
+      <h1>GO QUICK</h1>
+      <p>Jo Chahiye, Jab Chahiye</p>
+    </div>
   </div>
   <input class="search" id="search" type="search" placeholder="🔎 Search products...">
 </header>
 
 <main class="container">
   <h2 class="section-title">Shop by category</h2>
+
   <div class="categories">
-    <div class="category" onclick="selectCategory('Fruits & Vegetables')"><img src="tomato.jpg" alt=""><h3>Fruits &amp;<br>Vegetables</h3></div>
-    <div class="category" onclick="selectCategory('Aata, Rice & Dal')"><img src="ashirvaad.jpg" alt=""><h3>Aata, Rice &amp;<br>Dal</h3></div>
-    <div class="category" onclick="selectCategory('Oil, Ghee & Masala')"><img src="mustard.jpg" alt=""><h3>Oil, Ghee &amp;<br>Masala</h3></div>
-    <div class="category" onclick="selectCategory('Milk & Dairy')"><img src="amul_milk.jpg" alt=""><h3>Milk &amp; Dairy</h3></div>
-    <div class="category" onclick="selectCategory('Bakery & Biscuits')"><img src="white_bread.jpg" alt=""><h3>Bakery &amp;<br>Biscuits</h3></div>
-    <div class="category" onclick="selectCategory('Drinks & Snacks')"><img src="soya.jpg" alt=""><h3>Drinks &amp;<br>Snacks</h3></div>
+    <div class="category" onclick="selectCategory('Fruits & Vegetables')">
+      <img src="tomato.jpg" alt="Vegetables">
+      <h3>Fruits &amp;<br>Vegetables</h3>
+    </div>
+    <div class="category" onclick="selectCategory('Aata, Rice & Dal')">
+      <img src="ashirvaad.jpg" alt="Atta">
+      <h3>Aata, Rice &amp;<br>Dal</h3>
+    </div>
+    <div class="category" onclick="selectCategory('Oil, Ghee & Masala')">
+      <img src="mustard.jpg" alt="Oil">
+      <h3>Oil, Ghee &amp;<br>Masala</h3>
+    </div>
+    <div class="category" onclick="selectCategory('Milk & Dairy')">
+      <img src="amul_milk.jpg" alt="Milk">
+      <h3>Milk &amp; Dairy</h3>
+    </div>
+    <div class="category" onclick="selectCategory('Bakery & Biscuits')">
+      <img src="white_bread.jpg" alt="Bread">
+      <h3>Bakery &amp;<br>Biscuits</h3>
+    </div>
+    <div class="category" onclick="selectCategory('Drinks & Snacks')">
+      <img src="soya.jpg" alt="Snacks">
+      <h3>Drinks &amp;<br>Snacks</h3>
+    </div>
   </div>
 
-  <div class="status" id="status">Connecting to product list...</div>
+  <div id="status" class="status">Connecting to Google Sheet...</div>
 
   <div class="products-title">
     <h2 id="productsHeading">All Products</h2>
     <span class="count" id="productCount">0 products</span>
   </div>
+
   <div class="products" id="products">
     <div class="empty">Loading products...</div>
   </div>
 </main>
+
+<button class="install" id="installBtn">📱 Install GO QUICK</button>
 
 <div class="bottom-cart" onclick="openCart()">
   🛒 VIEW CART • <span id="cartCount">0</span> ITEMS • ₹<span id="cartTotal">0</span>
@@ -96,17 +134,17 @@ body{background:#f5f7f6;color:#111;padding-bottom:100px}
     <h2>🛒 Your Cart</h2>
     <div id="cartItems"></div>
     <div id="cartSummary"></div>
+
     <div class="form">
       <input id="customerName" placeholder="Customer Name">
       <input id="mobile" type="tel" placeholder="Mobile Number">
       <textarea id="address" placeholder="Delivery Address"></textarea>
     </div>
+
     <button class="action checkout" onclick="sendOrder()">📲 PLACE ORDER</button>
     <button class="action close" onclick="closeCart()">Close</button>
   </div>
 </div>
-
-<button class="install" id="installBtn">📱 Install GO QUICK</button>
 
 <script>
 "use strict";
@@ -118,7 +156,7 @@ let products = [];
 let cart = {};
 let currentCategory = "All Products";
 let searchText = "";
-let requestTimer = null;
+let requestTimer;
 
 const categoryMap = {
   "fruit & vegetables":"Fruits & Vegetables",
@@ -131,65 +169,62 @@ const categoryMap = {
   "drinks & snacks":"Drinks & Snacks"
 };
 
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, function(c) {
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+
 function money(value) {
-  const n = Number(value);
-  if (value === "" || value === null || value === undefined || !Number.isFinite(n)) {
+  if (value === "" || value === null || value === undefined || !Number.isFinite(Number(value))) {
     return "Price updating";
   }
-  return "₹" + n.toFixed(2).replace(/\.00$/, "");
+  return "₹" + Number(value).toFixed(2).replace(/\.00$/, "");
 }
 
 function renderProducts() {
   const box = document.getElementById("products");
-  const heading = document.getElementById("productsHeading");
-  const count = document.getElementById("productCount");
-
-  heading.textContent = currentCategory;
-
-  const list = products.map((p, index) => ({p, index})).filter(({p}) => {
+  const list = products.map((p,index)=>({p,index})).filter(({p})=>{
     const categoryOK = currentCategory === "All Products" || p[1] === currentCategory;
-    const searchOK = !searchText ||
-      p[0].toLowerCase().includes(searchText) ||
-      p[1].toLowerCase().includes(searchText);
+    const searchOK = !searchText || p[0].toLowerCase().includes(searchText) || p[1].toLowerCase().includes(searchText);
     return categoryOK && searchOK;
   });
 
-  count.textContent = list.length + " products";
+  document.getElementById("productsHeading").textContent = currentCategory;
+  document.getElementById("productCount").textContent = list.length + " products";
 
   if (!list.length) {
     box.innerHTML = '<div class="empty">' +
-      (products.length ? "No products in this category." : "Products are loading or the sheet has no active products.") +
+      (products.length ? "No products in this category." : "Loading products or no active products found.") +
       '</div>';
     return;
   }
 
-  box.innerHTML = list.map(({p, index}) => {
+  box.innerHTML = list.map(({p,index})=>{
     const qty = cart[index] || 0;
-    const price = typeof p[3] === "number" && Number.isFinite(p[3])
-      ? '<div class="price">' + money(p[3]) + '</div>'
+    const priceHTML = typeof p[3] === "number" && Number.isFinite(p[3])
+      ? '<div class="price">'+money(p[3])+'</div>'
       : '<div class="price updating">Price updating</div>';
 
-    const button = qty > 0
+    const buttonHTML = qty > 0
       ? '<div class="qty"><button onclick="changeQty('+index+',-1)">−</button><span>'+qty+'</span><button onclick="changeQty('+index+',1)">+</button></div>'
       : '<button class="add-btn" onclick="addToCart('+index+')">ADD</button>';
 
-    return '<div class="product">' +
-      '<img src="'+escapeHTML(p[4])+'" alt="'+escapeHTML(p[0])+'" onerror="this.style.visibility=\'hidden\'">' +
-      '<div class="product-info"><div class="product-name">'+escapeHTML(p[0])+'</div>' +
-      '<div class="product-size">'+escapeHTML(p[2])+'</div>' +
-      price + button + '</div></div>';
-  }).join("");
-}
+    const imageHTML = p[4]
+      ? '<img src="'+escapeHTML(p[4])+'" alt="'+escapeHTML(p[0])+'" onerror="this.style.opacity=\'0.25\'">'
+      : '<img src="logo.png" alt="Product image">';
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
+    return '<div class="product">'+imageHTML+
+      '<div class="product-info"><div class="product-name">'+escapeHTML(p[0])+'</div>'+
+      '<div class="product-size">'+escapeHTML(p[2])+'</div>'+
+      priceHTML+buttonHTML+'</div></div>';
+  }).join("");
 }
 
 function selectCategory(category) {
   currentCategory = category;
   renderProducts();
+  document.querySelector(".products-title").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 function addToCart(index) {
@@ -198,7 +233,7 @@ function addToCart(index) {
   updateCartBar();
 }
 
-function changeQty(index, change) {
+function changeQty(index,change) {
   cart[index] = (cart[index] || 0) + change;
   if (cart[index] <= 0) delete cart[index];
   renderProducts();
@@ -206,20 +241,20 @@ function changeQty(index, change) {
 }
 
 function totalItems() {
-  return Object.values(cart).reduce((a,b) => a+b, 0);
+  return Object.values(cart).reduce((sum,qty)=>sum+qty,0);
 }
 
 function total() {
-  return Object.keys(cart).reduce((sum, index) => {
+  return Object.keys(cart).reduce((sum,index)=>{
     const price = products[index][3];
     return typeof price === "number" && Number.isFinite(price)
       ? sum + price * cart[index] : sum;
-  }, 0);
+  },0);
 }
 
 function updateCartBar() {
   document.getElementById("cartCount").textContent = totalItems();
-  document.getElementById("cartTotal").textContent = total().toFixed(2).replace(/\.00$/, "");
+  document.getElementById("cartTotal").textContent = total().toFixed(2).replace(/\.00$/,"");
 }
 
 function openCart() {
@@ -230,14 +265,15 @@ function openCart() {
     items.innerHTML = "<p>Your cart is empty.</p>";
     summary.innerHTML = "";
   } else {
-    items.innerHTML = Object.keys(cart).map(index => {
+    items.innerHTML = Object.keys(cart).map(index=>{
       const p = products[index];
       const qty = cart[index];
-      const line = typeof p[3] === "number" ? money(p[3] * qty) : "Price updating";
+      const line = typeof p[3] === "number" ? money(p[3]*qty) : "Price updating";
       return '<div class="cart-row"><strong>'+escapeHTML(p[0])+' × '+qty+'</strong><span>'+line+'</span></div>';
     }).join("");
-    summary.innerHTML = "<h3>Total: " + money(total()) + "</h3>";
+    summary.innerHTML = "<h3>Total: "+money(total())+"</h3>";
   }
+
   document.getElementById("cartModal").style.display = "block";
 }
 
@@ -260,26 +296,25 @@ function sendOrder() {
     return;
   }
 
-  let message = "🛒 GO QUICK ORDER\n\nCustomer: " + name +
-    "\nMobile: " + mobile + "\nAddress: " + address + "\n\nItems:\n";
+  let message = "🛒 GO QUICK ORDER\n\nCustomer: "+name+
+    "\nMobile: "+mobile+"\nAddress: "+address+"\n\nItems:\n";
 
-  Object.keys(cart).forEach(index => {
+  Object.keys(cart).forEach(index=>{
     const p = products[index];
     const qty = cart[index];
-    const line = typeof p[3] === "number" ? money(p[3] * qty) : "Price updating";
-    message += "• " + p[0] + " (" + p[2] + ") × " + qty + " = " + line + "\n";
+    const line = typeof p[3] === "number" ? money(p[3]*qty) : "Price updating";
+    message += "• "+p[0]+" ("+p[2]+") × "+qty+" = "+line+"\n";
   });
 
-  message += "\nTotal: " + money(total());
-  window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message), "_blank");
+  message += "\nTotal: "+money(total());
+  window.open("https://wa.me/"+whatsappNumber+"?text="+encodeURIComponent(message),"_blank");
 }
 
-document.getElementById("search").addEventListener("input", function() {
+document.getElementById("search").addEventListener("input",function(){
   searchText = this.value.trim().toLowerCase();
   renderProducts();
 });
 
-/* Google Sheet JSONP connection */
 function loadProductsFromSheet() {
   const status = document.getElementById("status");
   status.textContent = "Connecting to Google Sheet...";
@@ -301,14 +336,14 @@ function loadProductsFromSheet() {
 
     try {
       if (!Array.isArray(data)) {
-        status.textContent = "Sheet response was not a product list.";
+        status.textContent = "Invalid product data received.";
         return;
       }
 
-      const loaded = data.filter(item => {
-        const statusValue = String(item.Status ?? "on").trim().toLowerCase();
-        return item.Product && statusValue !== "off";
-      }).map(item => {
+      const loaded = data.filter(item=>{
+        const active = String(item.Status ?? "on").trim().toLowerCase();
+        return item.Product && active !== "off";
+      }).map(item=>{
         const rawCategory = String(item.Category ?? "").trim();
         const category = categoryMap[rawCategory.toLowerCase()] || rawCategory;
         const rawPrice = item.Price;
@@ -322,7 +357,7 @@ function loadProductsFromSheet() {
           price,
           String(item.Image ?? "").trim()
         ];
-      }).filter(p => p[0]);
+      }).filter(p=>p[0]);
 
       products = loaded;
       cart = {};
@@ -330,11 +365,10 @@ function loadProductsFromSheet() {
       updateCartBar();
 
       status.textContent = loaded.length
-        ? "Connected ✓ " + loaded.length + " products loaded from Google Sheet."
-        : "Connected, but no active products found in the sheet.";
-
-    } catch (error) {
-      status.textContent = "Could not process the product list.";
+        ? "Connected ✓ "+loaded.length+" products loaded from Google Sheet."
+        : "Connected, but no active products found.";
+    } catch(error) {
+      status.textContent = "Error processing products.";
       console.error(error);
     } finally {
       finish();
@@ -343,33 +377,34 @@ function loadProductsFromSheet() {
 
   script.onerror = function() {
     if (finished) return;
-    status.textContent = "Could not connect to Google Sheet. Check internet and deployment URL.";
+    status.textContent = "Google Sheet connection failed. Check internet or API URL.";
     finish();
   };
 
-  script.src = API_URL + "?callback=" + encodeURIComponent(callbackName) + "&t=" + Date.now();
+  script.src = API_URL+"?callback="+encodeURIComponent(callbackName)+"&t="+Date.now();
   script.id = callbackName;
   document.head.appendChild(script);
 
   requestTimer = setTimeout(function() {
     if (finished) return;
-    status.textContent = "Sheet request timed out. Refresh and try again.";
+    status.textContent = "Sheet request timed out. Refresh the page.";
     finish();
-  }, 15000);
+  },15000);
 }
 
 renderProducts();
 updateCartBar();
 loadProductsFromSheet();
 
-/* Install prompt */
+/* Install button */
 let deferredPrompt;
-window.addEventListener("beforeinstallprompt", function(e) {
+
+window.addEventListener("beforeinstallprompt",function(e){
   e.preventDefault();
   deferredPrompt = e;
 });
 
-document.getElementById("installBtn").addEventListener("click", async function() {
+document.getElementById("installBtn").addEventListener("click",async function(){
   if (deferredPrompt) {
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
@@ -379,9 +414,12 @@ document.getElementById("installBtn").addEventListener("click", async function()
   }
 });
 
+/* Service worker */
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("sw.js").catch(console.error);
+  window.addEventListener("load",function(){
+    navigator.serviceWorker.register("sw.js").catch(function(error){
+      console.log("Service worker error:",error);
+    });
   });
 }
 </script>
